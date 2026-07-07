@@ -788,6 +788,18 @@
             background: var(--neon-pink-dim);
         }
 
+        /* Highlight for item currently being edited */
+        .transaction-item.editing-highlight {
+            border-color: var(--neon-cyan) !important;
+            background: var(--neon-cyan-dim) !important;
+            box-shadow: 0 0 0 1px var(--neon-cyan), 0 0 20px rgba(0, 240, 255, 0.12) !important;
+            transform: translateX(4px);
+        }
+
+        .transaction-item.editing-highlight .item-info h4 {
+            color: var(--neon-cyan);
+        }
+
         /* Placeholder status when empty */
         .empty-placeholder {
             text-align: center;
@@ -1192,6 +1204,204 @@
         .toast.info i { color: var(--neon-cyan); }
 
 
+        /* Custom Confirm Dialog */
+        #confirm-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 5, 10, 0.82);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        body.light-mode #confirm-overlay {
+            background: rgba(220, 225, 240, 0.75);
+        }
+
+        #confirm-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #confirm-box {
+            background: rgba(16, 17, 28, 0.97);
+            border: 1px solid rgba(255, 71, 111, 0.25);
+            border-radius: 22px;
+            padding: 2.25rem 2.5rem;
+            max-width: 420px;
+            width: 92%;
+            box-shadow:
+                0 0 0 1px rgba(255, 71, 111, 0.1),
+                0 0 60px rgba(255, 46, 147, 0.2),
+                0 32px 64px rgba(0, 0, 0, 0.7);
+            transform: scale(0.85) translateY(24px);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: center;
+        }
+
+        body.light-mode #confirm-box {
+            background: rgba(255, 255, 255, 0.98);
+            border-color: rgba(233, 30, 99, 0.2);
+            box-shadow:
+                0 0 0 1px rgba(233, 30, 99, 0.08),
+                0 0 40px rgba(233, 30, 99, 0.1),
+                0 20px 48px rgba(0, 0, 0, 0.12);
+        }
+
+        #confirm-overlay.active #confirm-box {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Animated pulse ring around icon */
+        @keyframes confirm-pulse {
+            0%   { box-shadow: 0 0 0 0 rgba(255, 46, 147, 0.35); }
+            70%  { box-shadow: 0 0 0 12px rgba(255, 46, 147, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 46, 147, 0); }
+        }
+
+        @keyframes confirm-icon-pop {
+            0%   { transform: scale(0.6) rotate(-10deg); opacity: 0; }
+            60%  { transform: scale(1.15) rotate(4deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        #confirm-overlay.active .confirm-icon {
+            animation: confirm-pulse 1.4s ease-in-out 0.1s infinite, confirm-icon-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        #confirm-box .confirm-icon {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 46, 147, 0.2) 0%, rgba(255, 46, 147, 0.06) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            border: 2px solid rgba(255, 46, 147, 0.45);
+            position: relative;
+        }
+
+        #confirm-box .confirm-icon i {
+            color: var(--neon-pink);
+            width: 30px;
+            height: 30px;
+        }
+
+        body.light-mode #confirm-box .confirm-icon i {
+            color: #e91e63;
+        }
+
+        #confirm-box h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.6rem;
+            letter-spacing: -0.01em;
+        }
+
+        body.light-mode #confirm-box h3 {
+            color: #12131e;
+        }
+
+        #confirm-box p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        body.light-mode #confirm-box p {
+            color: #5a5f7d;
+        }
+
+        /* Danger stripe accent at top of box */
+        #confirm-box::before {
+            content: '';
+            display: block;
+            width: 48px;
+            height: 4px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, var(--neon-pink), #ff8c42);
+            margin: 0 auto 1.75rem;
+            box-shadow: 0 0 10px rgba(255, 46, 147, 0.5);
+        }
+
+        #confirm-box .confirm-buttons {
+            display: flex;
+            gap: 0.875rem;
+        }
+
+        #confirm-box .btn-confirm-cancel {
+            flex: 1;
+            padding: 0.875rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-secondary);
+            font-family: var(--font-family);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.22s ease;
+            letter-spacing: 0.01em;
+        }
+
+        body.light-mode #confirm-box .btn-confirm-cancel {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.1);
+            color: #5a5f7d;
+        }
+
+        #confirm-box .btn-confirm-cancel:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+            border-color: rgba(255, 255, 255, 0.18);
+            transform: translateY(-1px);
+        }
+
+        body.light-mode #confirm-box .btn-confirm-cancel:hover {
+            background: rgba(0, 0, 0, 0.07);
+            color: #12131e;
+        }
+
+        #confirm-box .btn-confirm-ok {
+            flex: 1;
+            padding: 0.875rem;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #FF2E93 0%, #c4154a 100%);
+            color: #fff;
+            font-family: var(--font-family);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.22s ease;
+            box-shadow: 0 4px 18px rgba(255, 46, 147, 0.45);
+            letter-spacing: 0.01em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+
+        #confirm-box .btn-confirm-ok:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(255, 46, 147, 0.6);
+            background: linear-gradient(135deg, #ff3fa0 0%, #d91e57 100%);
+        }
+
+        #confirm-box .btn-confirm-ok:active {
+            transform: translateY(0);
+        }
+
         /* --- RESPONSIVE LAYOUT SYSTEM --- */
         
         /* Auto Desktop Styles */
@@ -1338,6 +1548,24 @@
 
     <!-- Notification Toast Container -->
     <div id="toast-container"></div>
+
+    <!-- Custom Confirm Dialog -->
+    <div id="confirm-overlay">
+        <div id="confirm-box">
+            <div class="confirm-icon">
+                <i data-lucide="trash-2"></i>
+            </div>
+            <h3 id="confirm-title">Confirmar Exclusão</h3>
+            <p id="confirm-message">Tem certeza que deseja continuar?</p>
+            <div class="confirm-buttons">
+                <button class="btn-confirm-cancel" onclick="resolveConfirm(false)">Cancelar</button>
+                <button class="btn-confirm-ok" onclick="resolveConfirm(true)">
+                    <i data-lucide="trash-2" style="width:15px;height:15px;"></i>
+                    Excluir
+                </button>
+            </div>
+        </div>
+    </div>
 
     <div class="app-container">
         
@@ -1732,7 +1960,8 @@
             activeFormType: 'ganho', // 'ganho' (Receita) or 'gasto' (Despesa)
             metricsTimeMode: 'monthly', // 'monthly' or 'yearly'
             layoutMode: 'auto', // 'auto', 'desktop', 'mobile'
-            chartInstance: null
+            chartInstance: null,
+            editingId: null // ID of transaction currently being edited
         };
 
         // Standard autocomplete categories suggestions
@@ -1742,22 +1971,9 @@
         ];
 
         // --- 2. Initial Mock Data ---
-        const mockTransactions = [
-            { id: "t1", type: "ganho", amount: 5500.00, description: "Salário Base Mensal", topic: "Salário", date: "2026-07-01" },
-            { id: "t2", type: "gasto", amount: 150.00, description: "Jantar Sexta Ifood", topic: "Alimentação", date: "2026-07-03" },
-            { id: "t3", type: "gasto", amount: 45.50, description: "Corrida Uber Trabalho", topic: "Transporte", date: "2026-07-04" },
-            { id: "t4", type: "gasto", amount: 1200.00, description: "Aluguel Apartamento", topic: "Moradia", date: "2026-07-05" },
-            { id: "t5", type: "gasto", amount: 350.00, description: "Casaco Inverno Zara", topic: "Compras", date: "2026-07-05" },
-            { id: "t6", type: "ganho", amount: 850.00, description: "Desenvolvimento Site Freela", topic: "Freelance", date: "2026-07-06" },
-            { id: "t7", type: "gasto", amount: 55.90, description: "Assinatura Netflix Premium", topic: "Assinaturas", date: "2026-07-06" },
-            { id: "t8", type: "gasto", amount: 420.00, description: "Mercado da Semana", topic: "Alimentação", date: "2026-07-06" }
-        ];
-
-        const mockGoals = [
-            { id: "g1", name: "Reserva de Emergência 🛡️", target: 15000.00, current: 9000.00 },
-            { id: "g2", name: "Viagem de Fim de Ano ✈️", target: 8000.00, current: 3600.00 },
-            { id: "g3", name: "Trocar de Smartphone 📱", target: 6000.00, current: 4800.00 }
-        ];
+        // Empty initial state - starts fresh on first access
+        const mockTransactions = [];
+        const mockGoals = [];
 
         // --- 3. App Initialization ---
         window.addEventListener('DOMContentLoaded', () => {
@@ -1883,22 +2099,16 @@
                 const response = await fetch('api.php?t=' + Date.now(), { cache: 'no-store' });
                 if (!response.ok) throw new Error('API load error');
                 const data = await response.json();
-                
-                state.transactions = data.transactions && data.transactions.length > 0 ? data.transactions : [...mockTransactions];
-                state.goals = data.goals && data.goals.length > 0 ? data.goals : [...mockGoals];
-                
-                // If it was empty or new, trigger initial save
-                if (!data.transactions || data.transactions.length === 0 || !data.goals || data.goals.length === 0) {
-                    saveToServer();
-                }
+                // Always use server data (can be empty array on first access)
+                state.transactions = Array.isArray(data.transactions) ? data.transactions : [];
+                state.goals = Array.isArray(data.goals) ? data.goals : [];
             } catch (err) {
                 console.error("Falha ao carregar dados do servidor:", err);
-                showToast("Carregando dados do navegador local.", "info");
-                
+                // On server error fallback to localStorage, but never mock data
                 const localTrans = localStorage.getItem('glam_finance_transactions');
                 const localGoals = localStorage.getItem('glam_finance_goals');
-                state.transactions = localTrans ? JSON.parse(localTrans) : [...mockTransactions];
-                state.goals = localGoals ? JSON.parse(localGoals) : [...mockGoals];
+                state.transactions = localTrans ? JSON.parse(localTrans) : [];
+                state.goals = localGoals ? JSON.parse(localGoals) : [];
             }
             refreshAllUI();
         }
@@ -1995,7 +2205,10 @@
         // --- 5. UI Rendering & Computations ---
         function refreshAllUI() {
             updateSummaryCards();
-            renderTransactionsList();
+            // Preserve the active filter dropdown value when refreshing
+            const activeFilter = document.getElementById('filter-type');
+            const currentFilter = activeFilter ? activeFilter.value : 'all';
+            renderTransactionsList('', currentFilter);
             renderGoalsList();
             renderAnalysisTab();
         }
@@ -2082,12 +2295,10 @@
 
             let filtered = state.transactions;
 
-            // Apply type filter
             if (filterType !== 'all') {
                 filtered = filtered.filter(t => t.type === filterType);
             }
 
-            // Apply search text filter
             if (filterText.trim() !== '') {
                 const query = filterText.toLowerCase();
                 filtered = filtered.filter(t => 
@@ -2096,7 +2307,6 @@
                 );
             }
 
-            // Sort transactions by date descending (newest first)
             filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
 
             if (filtered.length === 0) {
@@ -2112,10 +2322,10 @@
 
             filtered.forEach(t => {
                 const itemDiv = document.createElement('div');
-                itemDiv.className = 'transaction-item';
+                itemDiv.className = `transaction-item ${state.editingId === t.id ? 'editing-highlight' : ''}`;
                 itemDiv.setAttribute('data-type', t.type);
+                itemDiv.setAttribute('data-id', t.id);
 
-                // Determine icon based on category/topic
                 const iconName = getCategoryIcon(t.topic);
 
                 itemDiv.innerHTML = `
@@ -2134,10 +2344,10 @@
                     <div class="item-financials">
                         <span class="item-amount">${t.type === 'ganho' ? '+' : '-'} ${formatCurrency(t.amount)}</span>
                         <div class="item-actions">
-                            <button class="action-btn edit" onclick="editTransaction('${t.id}')" title="Editar">
+                            <button class="action-btn edit" data-action="edit" data-id="${t.id}" title="Editar">
                                 <i data-lucide="edit-3" style="width:16px;height:16px;"></i>
                             </button>
-                            <button class="action-btn delete" onclick="deleteTransaction('${t.id}')" title="Excluir">
+                            <button class="action-btn delete" data-action="delete" data-id="${t.id}" title="Excluir">
                                 <i data-lucide="trash-2" style="width:16px;height:16px;"></i>
                             </button>
                         </div>
@@ -2145,6 +2355,16 @@
                 `;
                 listContainer.appendChild(itemDiv);
             });
+
+            // Use Event Delegation
+            listContainer.onclick = (e) => {
+                const btn = e.target.closest('button');
+                if (!btn) return;
+                const action = btn.getAttribute('data-action');
+                const id = btn.getAttribute('data-id');
+                if (action === 'edit') editTransaction(id);
+                if (action === 'delete') deleteTransaction(id);
+            };
 
             lucide.createIcons();
         }
@@ -2470,7 +2690,13 @@
         // Edit Transaction Button Action
         function editTransaction(id) {
             const trans = state.transactions.find(t => t.id === id);
-            if (!trans) return;
+            if (!trans) {
+                showToast('Lançamento não encontrado.', 'error');
+                return;
+            }
+
+            // Track which item is being edited (for highlight)
+            state.editingId = id;
 
             // Fill form inputs
             document.getElementById('trans-value').value = trans.amount;
@@ -2483,14 +2709,21 @@
             setFormType(trans.type);
 
             // Change titles and buttons representation
-            document.getElementById('form-trans-title').innerText = "Editar Lançamento";
-            document.getElementById('btn-trans-submit').innerHTML = `<i data-lucide="check"></i> Atualizar Lançamento`;
+            document.getElementById('form-trans-title').innerText = 'Editar Lançamento';
+            document.getElementById('btn-trans-submit').innerHTML = `<i data-lucide="save"></i> Atualizar Lançamento`;
             document.getElementById('btn-trans-cancel').style.display = 'flex';
 
             lucide.createIcons();
 
-            // Scroll to form smoothly on mobile
-            document.getElementById('transaction-form').scrollIntoView({ behavior: 'smooth' });
+            // Highlight the item being edited in the list
+            document.querySelectorAll('.transaction-item').forEach(el => {
+                el.classList.toggle('editing-highlight', el.getAttribute('data-id') === id);
+            });
+
+            // Scroll to form smoothly
+            document.getElementById('transaction-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            showToast(`Editando: ${trans.description}`, 'info');
         }
 
         // Reset Transaction Form back to default state
@@ -2498,25 +2731,35 @@
             document.getElementById('transaction-form').reset();
             document.getElementById('trans-id').value = '';
             setFormType('ganho');
-            
+
+            // Clear editing highlight
+            state.editingId = null;
+            document.querySelectorAll('.transaction-item.editing-highlight').forEach(el => {
+                el.classList.remove('editing-highlight');
+            });
+
             // Set date to today
             document.getElementById('trans-date').value = new Date().toISOString().split('T')[0];
 
-            document.getElementById('form-trans-title').innerText = "Nova Transação";
+            document.getElementById('form-trans-title').innerText = 'Nova Transação';
             document.getElementById('btn-trans-submit').innerHTML = `<i data-lucide="check"></i> Salvar Lançamento`;
             document.getElementById('btn-trans-cancel').style.display = 'none';
-            
+
             lucide.createIcons();
         }
 
         // Delete Transaction
         function deleteTransaction(id) {
-            if (confirm("Deseja realmente excluir este lançamento?")) {
-                state.transactions = state.transactions.filter(t => t.id !== id);
-                saveState();
-                refreshAllUI();
-                showToast("Lançamento excluído.", "info");
-            }
+            showConfirm(
+                "Excluir Lançamento",
+                "Deseja realmente excluir este lançamento? Esta ação não pode ser desfeita.",
+                () => {
+                    state.transactions = state.transactions.filter(t => t.id !== id);
+                    saveState();
+                    refreshAllUI();
+                    showToast("Lançamento excluído.", "info");
+                }
+            );
         }
 
         // Filter / Search in transaction list handler
@@ -2560,12 +2803,16 @@
 
         // Delete Goal Meta
         function deleteGoal(id) {
-            if (confirm("Excluir esta caixinha? O dinheiro nela guardado retornará ao seu Saldo Disponível.")) {
-                state.goals = state.goals.filter(g => g.id !== id);
-                saveState();
-                refreshAllUI();
-                showToast("Caixinha excluída.", "info");
-            }
+            showConfirm(
+                "Excluir Caixinha",
+                "O dinheiro guardado nesta caixinha retornará ao seu saldo disponível. Deseja continuar?",
+                () => {
+                    state.goals = state.goals.filter(g => g.id !== id);
+                    saveState();
+                    refreshAllUI();
+                    showToast("Caixinha excluída.", "info");
+                }
+            );
         }
 
         // Submit new/edited goals
@@ -2778,14 +3025,39 @@
         }
 
         // Dynamic Toast Notifications
-        function showToast(message, type = 'info') {
+        // --- Custom Confirm Dialog ---
+        let _confirmCallback = null;
+
+        function showConfirm(title, message, onConfirm, iconName = 'trash-2') {
+            document.getElementById('confirm-title').textContent = title;
+            document.getElementById('confirm-message').textContent = message;
+            // Update icon dynamically
+            const iconEl = document.querySelector('#confirm-box .confirm-icon i');
+            if (iconEl) iconEl.setAttribute('data-lucide', iconName);
+            _confirmCallback = onConfirm;
+            const overlay = document.getElementById('confirm-overlay');
+            overlay.classList.add('active');
+            lucide.createIcons();
+        }
+
+        function resolveConfirm(confirmed) {
+            const overlay = document.getElementById('confirm-overlay');
+            overlay.classList.remove('active');
+            if (confirmed && typeof _confirmCallback === 'function') {
+                _confirmCallback();
+            }
+            _confirmCallback = null;
+        }
+
+        function showToast(message, type = 'info', duration = 3200) {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
 
             let iconName = 'info';
-            if (type === 'success') iconName = 'check-circle';
-            if (type === 'error') iconName = 'x-circle';
+            if (type === 'success') iconName = 'check-circle-2';
+            if (type === 'error')   iconName = 'alert-circle';
+            if (type === 'warning') iconName = 'alert-triangle';
 
             toast.innerHTML = `
                 <i data-lucide="${iconName}"></i>
@@ -2796,17 +3068,15 @@
             lucide.createIcons();
 
             // Slide in animation
-            setTimeout(() => {
-                toast.classList.add('active');
-            }, 10);
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => toast.classList.add('active'));
+            });
 
             // Auto dismiss toast
             setTimeout(() => {
                 toast.classList.remove('active');
-                setTimeout(() => {
-                    toast.remove();
-                }, 350);
-            }, 3000);
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
         }
 
     </script>

@@ -1,1 +1,4 @@
-{"transactions":[{"id":"trans_17833832962762op5s","type":"ganho","amount":14.4,"description":"Saldo Inicial","topic":"Outros","date":"2026-07-06"},{"id":"trans_1783384235691cugab","type":"ganho","amount":4,"description":"dinheiro achado","topic":"Outros","date":"2026-07-07"}],"goals":[{"id":"goal_1783383358316","name":"Cartão de Credito","target":20000,"current":2418.89}]}
+{
+    "transactions": [],
+    "goals": []
+}
