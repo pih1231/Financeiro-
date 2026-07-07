@@ -2094,72 +2094,89 @@
             lucide.createIcons();
         }
 
+        // =====================================================================
+        // DATA LAYER — funciona 100% no Vercel (localStorage) e XAMPP (api.php)
+        // =====================================================================
+
+        // Chaves do localStorage — prefixo versionado para evitar dados legados
+        const LS_TRANS = 'neoflow_v1_transactions';
+        const LS_GOALS = 'neoflow_v1_goals';
+
+        // Remove chaves antigas de versões anteriores (limpa dados obsoletos)
+        function clearLegacyStorage() {
+            const legacyKeys = [
+                'glam_finance_transactions',
+                'glam_finance_goals',
+                'financeiro_transactions',
+                'financeiro_goals'
+            ];
+            legacyKeys.forEach(k => localStorage.removeItem(k));
+        }
+
         async function initApp() {
-            // --- Detect environment: check if PHP API is actually available ---
-            let apiAvailable = false;
-            try {
-                const probe = await fetch('api.php?t=' + Date.now(), { cache: 'no-store' });
-                const contentType = probe.headers.get('content-type') || '';
-                // Only trust the API if it returns JSON (XAMPP/PHP server)
-                // On Vercel (static), api.php returns 404 or PHP source as text/html
-                if (probe.ok && contentType.includes('application/json')) {
-                    apiAvailable = true;
-                    const data = await probe.json();
-                    state.transactions = Array.isArray(data.transactions) ? data.transactions : [];
-                    state.goals = Array.isArray(data.goals) ? data.goals : [];
+            // Limpa dados de versões anteriores do localStorage
+            clearLegacyStorage();
+
+            // 1. Tenta carregar do localStorage (Vercel / qualquer host estático)
+            const localTrans = localStorage.getItem(LS_TRANS);
+            const localGoals = localStorage.getItem(LS_GOALS);
+
+            if (localTrans !== null || localGoals !== null) {
+                // Usuário já tem dados salvos — restaura do localStorage
+                try {
+                    state.transactions = localTrans ? JSON.parse(localTrans) : [];
+                    state.goals       = localGoals ? JSON.parse(localGoals) : [];
+                } catch (_) {
+                    // JSON corrompido → começa do zero
+                    state.transactions = [];
+                    state.goals        = [];
                 }
-            } catch (_) {
-                // Network error - API not reachable (Vercel, offline, etc.)
-                apiAvailable = false;
+                refreshAllUI();
+                return; // não precisa checar API
             }
 
-            if (!apiAvailable) {
-                // Vercel / static hosting: use localStorage only
-                // New users will have empty localStorage → start with zeros
-                const localTrans = localStorage.getItem('glam_finance_transactions');
-                const localGoals = localStorage.getItem('glam_finance_goals');
-                state.transactions = localTrans ? JSON.parse(localTrans) : [];
-                state.goals = localGoals ? JSON.parse(localGoals) : [];
+            // 2. localStorage vazio (primeira visita) — tenta a API PHP (XAMPP)
+            try {
+                const probe = await fetch('api.php?t=' + Date.now(), { cache: 'no-store' });
+                const ct = probe.headers.get('content-type') || '';
+                if (probe.ok && ct.includes('application/json')) {
+                    const data = await probe.json();
+                    state.transactions = Array.isArray(data.transactions) ? data.transactions : [];
+                    state.goals        = Array.isArray(data.goals)        ? data.goals        : [];
+                    // Espelha os dados do servidor no localStorage
+                    saveToLocalStorage();
+                }
+                // Se API não retornou JSON (Vercel → 404/html), continua com arrays vazios
+            } catch (_) {
+                // API inacessível (Vercel, offline) → começa com zeros
             }
 
             refreshAllUI();
         }
 
-        // --- Helper: LocalStorage & Server saves ---
-        function saveToLocalStorage(key) {
-            if (key === 'transactions') {
-                localStorage.setItem('glam_finance_transactions', JSON.stringify(state.transactions));
-            } else if (key === 'goals') {
-                localStorage.setItem('glam_finance_goals', JSON.stringify(state.goals));
-            }
+        // --- Persiste no localStorage (nova chave versionada) ---
+        function saveToLocalStorage() {
+            localStorage.setItem(LS_TRANS, JSON.stringify(state.transactions));
+            localStorage.setItem(LS_GOALS, JSON.stringify(state.goals));
         }
 
+        // --- Tenta salvar no servidor PHP (XAMPP) — falha silenciosa no Vercel ---
         async function saveToServer() {
-            const payload = {
-                transactions: state.transactions,
-                goals: state.goals
-            };
             try {
                 const response = await fetch('api.php?t=' + Date.now(), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload),
+                    body: JSON.stringify({ transactions: state.transactions, goals: state.goals }),
                     cache: 'no-store'
                 });
-                const contentType = response.headers.get('content-type') || '';
-                // Ignore save if response is not JSON (Vercel/static — api.php not running)
-                if (!response.ok || !contentType.includes('application/json')) return;
-            } catch (_) {
-                // Server not available — localStorage is the source of truth (Vercel)
-            }
+                const ct = response.headers.get('content-type') || '';
+                if (!response.ok || !ct.includes('application/json')) return; // Vercel → ignora
+            } catch (_) { /* Vercel / offline → sem problema */ }
         }
 
         function saveState() {
-            // Always persist to localStorage (works on both XAMPP and Vercel)
-            saveToLocalStorage('transactions');
-            saveToLocalStorage('goals');
-            // Also try the PHP server if available (XAMPP only — silent fail on Vercel)
-            saveToServer();
+            saveToLocalStorage();   // sempre (Vercel + XAMPP)
+            saveToServer();         // bonus para XAMPP, falha silenciosa no Vercel
         }
 
         // --- 4. Tab Navigation System ---
