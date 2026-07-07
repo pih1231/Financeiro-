@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeoFlow ✨ | Sua Jornada Financeira Estilosa</title>
-    
+    <title>NeoFlow</title>
+
     <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -29,19 +32,19 @@
             --dropdown-bg: #11121d;
             --modal-bg: rgba(20, 21, 33, 0.85);
             --input-bg: rgba(0, 0, 0, 0.25);
-            
+
             /* Modern Pastel Neon Colors */
             --neon-green: #05FF9B;
             --neon-green-glow: rgba(5, 255, 155, 0.15);
             --neon-green-dim: rgba(5, 255, 155, 0.08);
-            
+
             --neon-pink: #FF2E93;
             --neon-pink-glow: rgba(255, 46, 147, 0.15);
             --neon-pink-dim: rgba(255, 46, 147, 0.08);
-            
+
             --neon-purple: #8F00FF;
             --neon-purple-glow: rgba(143, 0, 255, 0.2);
-            
+
             --neon-cyan: #00F0FF;
             --neon-cyan-glow: rgba(0, 240, 255, 0.2);
             --neon-cyan-dim: rgba(0, 240, 255, 0.08);
@@ -49,10 +52,10 @@
             --text-primary: #FFFFFF;
             --text-secondary: #8E92B2;
             --text-muted: #4F5375;
-            
+
             --font-family: 'Plus Jakarta Sans', sans-serif;
             --font-display: 'Outfit', sans-serif;
-            
+
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -67,19 +70,19 @@
             --dropdown-bg: #ffffff;
             --modal-bg: rgba(255, 255, 255, 0.96);
             --input-bg: rgba(255, 255, 255, 0.9);
-            
-            --neon-green: #00b368; 
+
+            --neon-green: #00b368;
             --neon-green-glow: rgba(0, 179, 104, 0.15);
             --neon-green-dim: rgba(0, 179, 104, 0.08);
-            
-            --neon-pink: #e91e63; 
+
+            --neon-pink: #e91e63;
             --neon-pink-glow: rgba(233, 30, 99, 0.15);
             --neon-pink-dim: rgba(233, 30, 99, 0.08);
-            
-            --neon-purple: #7b2cbf; 
+
+            --neon-purple: #7b2cbf;
             --neon-purple-glow: rgba(123, 44, 191, 0.15);
-            
-            --neon-cyan: #0096c7; 
+
+            --neon-cyan: #0096c7;
             --neon-cyan-glow: rgba(0, 150, 199, 0.15);
             --neon-cyan-dim: rgba(0, 150, 199, 0.08);
 
@@ -113,13 +116,16 @@
             width: 8px;
             height: 8px;
         }
+
         ::-webkit-scrollbar-track {
             background: var(--bg-dark);
         }
+
         ::-webkit-scrollbar-thumb {
             background: var(--border-hover);
             border-radius: 4px;
         }
+
         ::-webkit-scrollbar-thumb:hover {
             background: var(--neon-cyan);
         }
@@ -144,7 +150,8 @@
         .app-container {
             max-width: 1280px;
             margin: 0 auto;
-            padding: 2rem 1.5rem 6rem 1.5rem; /* bottom padding for mobile navbar */
+            padding: 2rem 1.5rem 6rem 1.5rem;
+            /* bottom padding for mobile navbar */
             transition: var(--transition);
         }
 
@@ -268,8 +275,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Temporal Metric Filter Bar */
@@ -322,7 +336,7 @@
         }
 
         /* --- DASHBOARD SECTION --- */
-        
+
         /* Summary Metrics Grid */
         .metrics-grid {
             display: grid;
@@ -525,7 +539,7 @@
         .autocomplete-wrapper {
             position: relative;
         }
-        
+
         .autocomplete-items {
             position: absolute;
             border: 1px solid var(--border-hover);
@@ -538,7 +552,7 @@
             border-radius: 0 0 10px 10px;
             max-height: 150px;
             overflow-y: auto;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
 
         .autocomplete-item {
@@ -819,7 +833,155 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Goals Total Summary Bar */
+        .goals-summary-bar {
+            display: flex;
+            gap: 1.25rem;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .goals-summary-card {
+            flex: 1;
+            min-width: 180px;
+            padding: 1.1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .goals-summary-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .goals-summary-card.total-saved .goals-summary-icon {
+            background: var(--neon-green-dim);
+            color: var(--neon-green);
+        }
+
+        .goals-summary-card.total-target .goals-summary-icon {
+            background: var(--neon-cyan-dim);
+            color: var(--neon-cyan);
+        }
+
+        .goals-summary-card.total-count .goals-summary-icon {
+            background: var(--neon-purple-glow);
+            color: var(--neon-purple);
+        }
+
+        .goals-summary-info label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            margin-bottom: 0.2rem;
+        }
+
+        .goals-summary-value {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .goals-summary-card.total-saved .goals-summary-value {
+            color: var(--neon-green);
+        }
+
+        /* Limit warning badge on goal card */
+        .goal-limit-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.2rem 0.55rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-top: 0.4rem;
+        }
+
+        .goal-limit-badge.limit-ok {
+            background: var(--neon-green-dim);
+            color: var(--neon-green);
+            border: 1px solid rgba(5, 255, 155, 0.2);
+        }
+
+        .goal-limit-badge.limit-warn {
+            background: rgba(255, 200, 50, 0.12);
+            color: #ffd43b;
+            border: 1px solid rgba(255, 212, 59, 0.25);
+        }
+
+        .goal-limit-badge.limit-over {
+            background: var(--neon-pink-dim);
+            color: var(--neon-pink);
+            border: 1px solid rgba(255, 46, 147, 0.3);
+            animation: badge-pulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes badge-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 46, 147, 0.3); }
+            50% { box-shadow: 0 0 0 6px rgba(255, 46, 147, 0); }
+        }
+
+        /* Deadline info row on goal card */
+        .goal-deadline {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-bottom: 0.85rem;
+            padding: 0.4rem 0.75rem;
+            border-radius: 8px;
+            border: 1px solid;
+        }
+
+        .goal-deadline.deadline-ok {
+            color: var(--neon-cyan);
+            background: var(--neon-cyan-dim);
+            border-color: rgba(0, 240, 255, 0.15);
+        }
+
+        .goal-deadline.deadline-urgent {
+            color: #ffd43b;
+            background: rgba(255, 212, 59, 0.08);
+            border-color: rgba(255, 212, 59, 0.2);
+        }
+
+        .goal-deadline.deadline-overdue {
+            color: var(--neon-pink);
+            background: var(--neon-pink-dim);
+            border-color: rgba(255, 46, 147, 0.2);
+        }
+
+        .goal-deadline.deadline-done {
+            color: var(--neon-green);
+            background: var(--neon-green-dim);
+            border-color: rgba(5, 255, 155, 0.2);
+        }
+
+        /* Progress bar color overrides when over limit */
+        .goal-card.over-limit .progress-bar {
+            background: linear-gradient(90deg, var(--neon-pink) 0%, #ff8c42 100%);
+            box-shadow: 0 0 8px var(--neon-pink-glow);
+        }
+
+        .goal-card.over-limit {
+            border-color: rgba(255, 46, 147, 0.25) !important;
         }
 
         .btn-add-goal {
@@ -1164,7 +1326,7 @@
             color: #FFFFFF;
             font-size: 0.9rem;
             font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             gap: 0.75rem;
@@ -1176,7 +1338,7 @@
         body.light-mode .toast {
             background: rgba(255, 255, 255, 0.95);
             color: #12131e;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         .toast.active {
@@ -1199,9 +1361,17 @@
             flex-shrink: 0;
         }
 
-        .toast.success i { color: var(--neon-green); }
-        .toast.error i { color: var(--neon-pink); }
-        .toast.info i { color: var(--neon-cyan); }
+        .toast.success i {
+            color: var(--neon-green);
+        }
+
+        .toast.error i {
+            color: var(--neon-pink);
+        }
+
+        .toast.info i {
+            color: var(--neon-cyan);
+        }
 
 
         /* Custom Confirm Dialog */
@@ -1260,15 +1430,33 @@
 
         /* Animated pulse ring around icon */
         @keyframes confirm-pulse {
-            0%   { box-shadow: 0 0 0 0 rgba(255, 46, 147, 0.35); }
-            70%  { box-shadow: 0 0 0 12px rgba(255, 46, 147, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 46, 147, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 46, 147, 0.35);
+            }
+
+            70% {
+                box-shadow: 0 0 0 12px rgba(255, 46, 147, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 46, 147, 0);
+            }
         }
 
         @keyframes confirm-icon-pop {
-            0%   { transform: scale(0.6) rotate(-10deg); opacity: 0; }
-            60%  { transform: scale(1.15) rotate(4deg); opacity: 1; }
-            100% { transform: scale(1) rotate(0deg); }
+            0% {
+                transform: scale(0.6) rotate(-10deg);
+                opacity: 0;
+            }
+
+            60% {
+                transform: scale(1.15) rotate(4deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
         }
 
         #confirm-overlay.active .confirm-icon {
@@ -1403,12 +1591,13 @@
         }
 
         /* --- RESPONSIVE LAYOUT SYSTEM --- */
-        
+
         /* Auto Desktop Styles */
         @media (max-width: 960px) {
             body.layout-auto .dashboard-body {
                 grid-template-columns: 1fr;
             }
+
             body.layout-auto .form-section {
                 order: -1;
             }
@@ -1426,7 +1615,8 @@
             }
 
             body.layout-auto .nav-tabs {
-                display: none !important; /* Hide top tabs */
+                display: none !important;
+                /* Hide top tabs */
             }
 
             body.layout-auto .mobile-nav {
@@ -1541,9 +1731,9 @@
             color: var(--neon-cyan);
             text-shadow: 0 0 10px var(--neon-cyan-glow);
         }
-
     </style>
 </head>
+
 <body>
 
     <!-- Notification Toast Container -->
@@ -1568,11 +1758,12 @@
     </div>
 
     <div class="app-container">
-        
+
         <!-- Header -->
         <header>
             <div class="logo">
-                <svg viewBox="0 0 100 100" width="38" height="38" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.45)); flex-shrink: 0;">
+                <svg viewBox="0 0 100 100" width="38" height="38" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.45)); flex-shrink: 0;">
                     <defs>
                         <linearGradient id="logo-grad" x1="0%" y1="100%" x2="100%" y2="0%">
                             <stop offset="0%" stop-color="#00F0FF" />
@@ -1582,19 +1773,24 @@
                     <!-- Star -->
                     <path d="M 52 10 L 54 15 L 59 17 L 54 19 L 52 24 L 50 19 L 45 17 L 50 15 Z" fill="#00F0FF" />
                     <!-- Coins -->
-                    <ellipse cx="63" cy="30" rx="7" ry="3.5" stroke="url(#logo-grad)" stroke-width="2.5" fill="#090a0f" transform="rotate(-15 63 30)"/>
-                    <ellipse cx="71" cy="38" rx="7" ry="3.5" stroke="url(#logo-grad)" stroke-width="2.5" fill="#090a0f" transform="rotate(-15 71 38)"/>
+                    <ellipse cx="63" cy="30" rx="7" ry="3.5" stroke="url(#logo-grad)" stroke-width="2.5" fill="#090a0f"
+                        transform="rotate(-15 63 30)" />
+                    <ellipse cx="71" cy="38" rx="7" ry="3.5" stroke="url(#logo-grad)" stroke-width="2.5" fill="#090a0f"
+                        transform="rotate(-15 71 38)" />
                     <!-- N Arrow Wave -->
-                    <path d="M 22 68 C 22 50, 32 32, 45 38 C 58 44, 60 68, 72 52 C 78 44, 82 34, 84 26" stroke="url(#logo-grad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M 68 26 L 84 26 L 84 42" stroke="url(#logo-grad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M 22 68 C 22 50, 32 32, 45 38 C 58 44, 60 68, 72 52 C 78 44, 82 34, 84 26"
+                        stroke="url(#logo-grad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M 68 26 L 84 26 L 84 42" stroke="url(#logo-grad)" stroke-width="6" stroke-linecap="round"
+                        stroke-linejoin="round" />
                 </svg>
                 <span class="logo-text">NEOFLOW</span>
             </div>
-            
+
             <!-- Actions container -->
             <div class="header-actions">
                 <!-- Layout Toggle Button -->
-                <button id="layout-toggle-btn" class="action-icon-btn" onclick="toggleLayoutMode()" title="Layout: Automático">
+                <button id="layout-toggle-btn" class="action-icon-btn" onclick="toggleLayoutMode()"
+                    title="Layout: Automático">
                     <i data-lucide="monitor-smartphone"></i>
                 </button>
 
@@ -1623,8 +1819,10 @@
         <!-- Dynamic Temporal Metric Filter Bar -->
         <div class="glass-card filter-bar">
             <div class="metrics-time-toggle">
-                <button class="toggle-time-btn active" id="time-btn-monthly" onclick="setMetricsTimeMode('monthly')">Mensal</button>
-                <button class="toggle-time-btn" id="time-btn-yearly" onclick="setMetricsTimeMode('yearly')">Anual</button>
+                <button class="toggle-time-btn active" id="time-btn-monthly"
+                    onclick="setMetricsTimeMode('monthly')">Mensal</button>
+                <button class="toggle-time-btn" id="time-btn-yearly"
+                    onclick="setMetricsTimeMode('yearly')">Anual</button>
             </div>
             <div class="selectors-wrapper">
                 <select id="metrics-month" class="filter-select" onchange="refreshAllUI()">
@@ -1652,10 +1850,10 @@
 
         <!-- ================== TAB: DASHBOARD ================== -->
         <main id="tab-dashboard" class="tab-content active">
-            
+
             <!-- Resumo Financeiro (Cards) -->
             <div class="metrics-grid">
-                
+
                 <!-- Saldo Card -->
                 <div class="glass-card metric-card balance">
                     <div class="metric-header">
@@ -1705,25 +1903,26 @@
 
             <!-- Dashboard Split (Form e Histórico) -->
             <div class="dashboard-body">
-                
+
                 <!-- Adicionar Transação Card -->
                 <section class="glass-card form-section">
                     <h2 class="section-title">
                         <i data-lucide="plus-circle" style="color: var(--neon-cyan);"></i>
                         <span id="form-trans-title">Nova Transação</span>
                     </h2>
-                    
+
                     <form id="transaction-form" onsubmit="handleTransactionSubmit(event)">
                         <!-- Type selector -->
                         <div class="type-selector">
-                            <button type="button" class="type-btn active" data-type="ganho" onclick="setFormType('ganho')">
+                            <button type="button" class="type-btn active" data-type="ganho"
+                                onclick="setFormType('ganho')">
                                 <i data-lucide="arrow-up-right"></i> Receita
                             </button>
                             <button type="button" class="type-btn" data-type="gasto" onclick="setFormType('gasto')">
                                 <i data-lucide="arrow-down-left"></i> Despesa
                             </button>
                         </div>
-                        
+
                         <!-- Value Input -->
                         <div class="form-group">
                             <label for="trans-value">Valor (R$)</label>
@@ -1734,7 +1933,9 @@
                         <div class="form-group">
                             <label for="trans-topic">Tópico / Categoria</label>
                             <div class="autocomplete-wrapper">
-                                <input type="text" id="trans-topic" class="input-control" placeholder="Ex: Alimentação, Salário" required autocomplete="off" onfocus="showSuggestions()" oninput="filterSuggestions()">
+                                <input type="text" id="trans-topic" class="input-control"
+                                    placeholder="Ex: Alimentação, Salário" required autocomplete="off"
+                                    onfocus="showSuggestions()" oninput="filterSuggestions()">
                                 <div id="autocomplete-list" class="autocomplete-items" style="display: none;"></div>
                             </div>
                         </div>
@@ -1748,7 +1949,8 @@
                         <!-- Description Input -->
                         <div class="form-group">
                             <label for="trans-desc">Descrição</label>
-                            <input type="text" id="trans-desc" class="input-control" placeholder="Ex: Mercado semanal, Freela" required>
+                            <input type="text" id="trans-desc" class="input-control"
+                                placeholder="Ex: Mercado semanal, Freela" required>
                         </div>
 
                         <input type="hidden" id="trans-id">
@@ -1756,7 +1958,9 @@
                         <button type="submit" class="btn-submit" id="btn-trans-submit">
                             <i data-lucide="check"></i> Salvar Lançamento
                         </button>
-                        <button type="button" class="btn-submit" id="btn-trans-cancel" style="display: none; background: rgba(255, 255, 255, 0.05); color: var(--text-secondary); box-shadow: none; margin-top: 0.5rem;" onclick="resetTransactionForm()">
+                        <button type="button" class="btn-submit" id="btn-trans-cancel"
+                            style="display: none; background: rgba(255, 255, 255, 0.05); color: var(--text-secondary); box-shadow: none; margin-top: 0.5rem;"
+                            onclick="resetTransactionForm()">
                             Cancelar Edição
                         </button>
                     </form>
@@ -1769,7 +1973,7 @@
                             <i data-lucide="history" style="color: var(--neon-cyan);"></i>
                             Histórico de Lançamentos
                         </h2>
-                        
+
                         <!-- Filtros e Pesquisa -->
                         <div class="search-filters">
                             <select id="filter-type" class="filter-select" onchange="filterHistory()">
@@ -1792,7 +1996,7 @@
 
         <!-- ================== TAB: GOALS / CAIXINHAS ================== -->
         <main id="tab-goals" class="tab-content">
-            
+
             <div class="goals-header">
                 <h2 class="section-title" style="margin-bottom: 0;">
                     <i data-lucide="piggy-bank" style="color: var(--neon-purple);"></i>
@@ -1801,6 +2005,31 @@
                 <button class="btn-add-goal" onclick="openGoalModal()">
                     <i data-lucide="plus"></i> Criar Nova Caixinha
                 </button>
+            </div>
+
+            <!-- Goals Total Summary Bar -->
+            <div class="goals-summary-bar" id="goals-summary-bar">
+                <div class="glass-card goals-summary-card total-saved">
+                    <div class="goals-summary-icon"><i data-lucide="piggy-bank"></i></div>
+                    <div class="goals-summary-info">
+                        <label>Total Guardado</label>
+                        <div class="goals-summary-value" id="summary-total-saved">R$ 0,00</div>
+                    </div>
+                </div>
+                <div class="glass-card goals-summary-card total-target">
+                    <div class="goals-summary-icon"><i data-lucide="target"></i></div>
+                    <div class="goals-summary-info">
+                        <label>Total Objetivos</label>
+                        <div class="goals-summary-value" id="summary-total-target">R$ 0,00</div>
+                    </div>
+                </div>
+                <div class="glass-card goals-summary-card total-count">
+                    <div class="goals-summary-icon"><i data-lucide="layers"></i></div>
+                    <div class="goals-summary-info">
+                        <label>Caixinhas Ativas</label>
+                        <div class="goals-summary-value" id="summary-total-count">0</div>
+                    </div>
+                </div>
             </div>
 
             <!-- Goals Grid -->
@@ -1812,20 +2041,21 @@
 
         <!-- ================== TAB: ANALYSIS / INSIGHTS ================== -->
         <main id="tab-analysis" class="tab-content">
-            
+
             <h2 class="section-title" style="margin-bottom: 2rem;">
                 <i data-lucide="trending-up" style="color: var(--neon-cyan);"></i>
                 Inteligência & Gastos Frequentes
             </h2>
 
             <div class="analysis-grid">
-                
+
                 <!-- Chart Section -->
                 <div class="glass-card chart-container">
                     <h3 class="section-title" style="font-size: 1.1rem; margin-bottom: 0.5rem; text-align: center;">
                         Distribuição de Gastos por Categoria
                     </h3>
-                    <p style="font-size: 0.8rem; color: var(--text-secondary); text-align: center; margin-bottom: 1.5rem;">
+                    <p
+                        style="font-size: 0.8rem; color: var(--text-secondary); text-align: center; margin-bottom: 1.5rem;">
                         Proporção de gastos em cada tópico no ano
                     </p>
                     <div class="chart-wrapper">
@@ -1835,7 +2065,7 @@
 
                 <!-- Insights Panel -->
                 <div class="insights-panel">
-                    
+
                     <!-- Frequência Card -->
                     <div id="insight-freq" class="glass-card insight-card alert">
                         <div class="insight-icon">
@@ -1865,7 +2095,8 @@
                         </div>
                         <div class="insight-content">
                             <h3>Insight NeoFlow</h3>
-                            <p id="insight-status-text">Analise o saldo das suas caixinhas e crie metas para manter as contas sob controle.</p>
+                            <p id="insight-status-text">Analise o saldo das suas caixinhas e crie metas para manter as
+                                contas sob controle.</p>
                         </div>
                     </div>
 
@@ -1888,10 +2119,11 @@
             </div>
             <form id="goal-form" onsubmit="handleGoalSubmit(event)">
                 <input type="hidden" id="goal-id">
-                
+
                 <div class="form-group">
                     <label for="goal-name">Nome da Meta</label>
-                    <input type="text" id="goal-name" class="input-control" placeholder="Ex: Viagem do Ano, Troca de Carro" required>
+                    <input type="text" id="goal-name" class="input-control"
+                        placeholder="Ex: Viagem do Ano, Troca de Carro" required>
                 </div>
 
                 <div class="form-group">
@@ -1900,6 +2132,16 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="goal-limit">Capacidade Máxima (R$) <span style="font-weight:400;color:var(--text-muted);text-transform:none;letter-spacing:0;">— opcional</span></label>
+                    <input type="text" id="goal-limit" class="input-control" placeholder="Ex: 1.000,00">
+                </div>
+
+                <div class="form-group">
+                    <label for="goal-deadline">Data Limite da Meta <span style="font-weight:400;color:var(--text-muted);text-transform:none;letter-spacing:0;">— opcional</span></label>
+                    <input type="date" id="goal-deadline" class="input-control">
+                </div>
+
+                <div class="form-group" id="goal-current-group">
                     <label for="goal-current">Valor Guardado Inicial (R$)</label>
                     <input type="text" id="goal-current" class="input-control" placeholder="0,00" value="0">
                 </div>
@@ -1929,16 +2171,6 @@
 
     <!-- ================== JAVASCRIPT STATE & LOGIC ================== -->
     <script>
-        
-        // Retorna a data de hoje no fuso horário LOCAL do dispositivo (YYYY-MM-DD)
-        // IMPORTANTE: new Date().toISOString() usa UTC e pode retornar ontem para BR (UTC-3)
-        function getLocalDateString() {
-            const now   = new Date();
-            const year  = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day   = String(now.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
 
         // Helper to parse Brazilian formatted numeric strings (e.g. 2.418,89) into JS Floats
         function parseFormattedNumber(val) {
@@ -1946,7 +2178,7 @@
             let s = val.toString().trim();
             // Remove R$ or any currency symbol if present
             s = s.replace(/R\$\s?/gi, '');
-            
+
             if (s.includes('.') && s.includes(',')) {
                 // Ex: 2.418,89 -> remove dots, replace comma with dot
                 s = s.replace(/\./g, '').replace(',', '.');
@@ -1976,7 +2208,7 @@
 
         // Standard autocomplete categories suggestions
         const defaultCategories = [
-            "Alimentação", "Transporte", "Moradia", "Lazer", "Saúde", 
+            "Alimentação", "Transporte", "Moradia", "Lazer", "Saúde",
             "Educação", "Salário", "Freelance", "Assinaturas", "Compras", "Outros"
         ];
 
@@ -1990,7 +2222,7 @@
             initTheme();
             initLayout();
             initApp();
-            
+
             // Set today's date (local timezone — avoids UTC offset bug)
             document.getElementById('trans-date').value = getLocalDateString();
         });
@@ -2000,7 +2232,7 @@
             const savedTheme = localStorage.getItem('glam_finance_theme') || 'dark';
             const body = document.body;
             const themeBtn = document.getElementById('theme-toggle-btn');
-            
+
             if (savedTheme === 'light') {
                 body.classList.add('light-mode');
                 themeBtn.innerHTML = `<i data-lucide="moon"></i>`;
@@ -2015,7 +2247,7 @@
         function toggleTheme() {
             const body = document.body;
             const themeBtn = document.getElementById('theme-toggle-btn');
-            
+
             if (body.classList.contains('light-mode')) {
                 body.classList.remove('light-mode');
                 localStorage.setItem('glam_finance_theme', 'dark');
@@ -2028,7 +2260,7 @@
                 showToast("Modo Claro ativado!", "info");
             }
             lucide.createIcons();
-            
+
             // Re-render analysis if chart is active
             renderAnalysisTab();
         }
@@ -2037,7 +2269,7 @@
         function initLayout() {
             state.layoutMode = localStorage.getItem('glam_finance_layout_mode') || 'auto';
             syncLayout();
-            
+
             // Listen for window resize to adapt automatic layouts dynamically
             window.addEventListener('resize', () => {
                 if (state.layoutMode === 'auto') {
@@ -2050,9 +2282,9 @@
         function syncLayout() {
             const body = document.body;
             const isWindowMobile = window.innerWidth <= 768;
-            
+
             body.classList.remove('layout-auto', 'layout-force-desktop', 'layout-force-mobile', 'mobile-layout');
-            
+
             if (state.layoutMode === 'desktop') {
                 body.classList.add('layout-force-desktop');
             } else if (state.layoutMode === 'mobile') {
@@ -2063,7 +2295,7 @@
                     body.classList.add('mobile-layout');
                 }
             }
-            
+
             updateLayoutTogglerButton();
         }
 
@@ -2087,10 +2319,10 @@
         function updateLayoutTogglerButton() {
             const btn = document.getElementById('layout-toggle-btn');
             if (!btn) return;
-            
+
             let iconName = 'monitor-smartphone';
             let title = 'Layout: Automático';
-            
+
             if (state.layoutMode === 'desktop') {
                 iconName = 'monitor';
                 title = 'Layout: Computador';
@@ -2098,7 +2330,7 @@
                 iconName = 'smartphone';
                 title = 'Layout: Celular';
             }
-            
+
             btn.innerHTML = `<i data-lucide="${iconName}"></i>`;
             btn.setAttribute('title', title);
             lucide.createIcons();
@@ -2135,11 +2367,11 @@
                 // Usuário já tem dados salvos — restaura do localStorage
                 try {
                     state.transactions = localTrans ? JSON.parse(localTrans) : [];
-                    state.goals       = localGoals ? JSON.parse(localGoals) : [];
+                    state.goals = localGoals ? JSON.parse(localGoals) : [];
                 } catch (_) {
                     // JSON corrompido → começa do zero
                     state.transactions = [];
-                    state.goals        = [];
+                    state.goals = [];
                 }
                 refreshAllUI();
                 return; // não precisa checar API
@@ -2152,7 +2384,7 @@
                 if (probe.ok && ct.includes('application/json')) {
                     const data = await probe.json();
                     state.transactions = Array.isArray(data.transactions) ? data.transactions : [];
-                    state.goals        = Array.isArray(data.goals)        ? data.goals        : [];
+                    state.goals = Array.isArray(data.goals) ? data.goals : [];
                     // Espelha os dados do servidor no localStorage
                     saveToLocalStorage();
                 }
@@ -2230,7 +2462,7 @@
             const btnMonthly = document.getElementById('time-btn-monthly');
             const btnYearly = document.getElementById('time-btn-yearly');
             const monthSelect = document.getElementById('metrics-month');
-            
+
             if (mode === 'monthly') {
                 btnMonthly.classList.add('active');
                 btnYearly.classList.remove('active');
@@ -2259,32 +2491,32 @@
             const selectedYear = document.getElementById('metrics-year').value;
             const selectedMonth = document.getElementById('metrics-month').value;
             const mode = state.metricsTimeMode;
-            
+
             let filteredTrans = [];
-            
+
             if (mode === 'monthly') {
                 filteredTrans = state.transactions.filter(t => {
                     const parts = t.date.split('-');
                     return parts[0] === selectedYear && parts[1] === selectedMonth;
                 });
-                
+
                 document.getElementById('balance-card-title').innerText = "SALDO MENSAL";
                 document.getElementById('earnings-card-title').innerText = "RECEITAS MENSAIS";
                 document.getElementById('expenses-card-title').innerText = "DESPESAS MENSAIS";
-                
+
                 let earnings = 0;
                 let expenses = 0;
                 filteredTrans.forEach(t => {
                     if (t.type === 'ganho') earnings += parseFloat(t.amount);
                     else expenses += parseFloat(t.amount);
                 });
-                
+
                 const balance = earnings - expenses;
-                
+
                 document.getElementById('metric-balance-val').innerText = formatCurrency(balance);
                 document.getElementById('metric-earnings-val').innerText = formatCurrency(earnings);
                 document.getElementById('metric-expenses-val').innerText = formatCurrency(expenses);
-                
+
                 document.getElementById('balance-card-footer').innerText = `Saldo líquido de ${getMonthName(selectedMonth)}/${selectedYear}`;
                 document.getElementById('earnings-card-footer').innerText = `Entradas em ${getMonthName(selectedMonth)}`;
                 document.getElementById('expenses-card-footer').innerText = `Saídas em ${getMonthName(selectedMonth)}`;
@@ -2294,35 +2526,35 @@
                     const parts = t.date.split('-');
                     return parts[0] === selectedYear;
                 });
-                
+
                 document.getElementById('balance-card-title').innerText = "PROJEÇÃO DE ECONOMIA";
                 document.getElementById('earnings-card-title').innerText = "RECEITAS ANUAIS";
                 document.getElementById('expenses-card-title').innerText = "DESPESAS ANUAIS";
-                
+
                 let earnings = 0;
                 let expenses = 0;
                 filteredTrans.forEach(t => {
                     if (t.type === 'ganho') earnings += parseFloat(t.amount);
                     else expenses += parseFloat(t.amount);
                 });
-                
+
                 // Calculate elapsed months for projection in selected Year
                 const today = new Date();
                 let monthsElapsed = 12;
                 if (selectedYear === today.getFullYear().toString()) {
                     monthsElapsed = today.getMonth() + 1; // 1-indexed
                 }
-                
+
                 // Simple Year-End Projection savings calculation
                 const netSavingsYearToDate = earnings - expenses;
                 const monthlySavingsAvg = netSavingsYearToDate / monthsElapsed;
                 const remainingMonths = 12 - monthsElapsed;
                 const projectedSavings = netSavingsYearToDate + (monthlySavingsAvg > 0 ? monthlySavingsAvg * remainingMonths : 0);
-                
+
                 document.getElementById('metric-balance-val').innerText = formatCurrency(projectedSavings);
                 document.getElementById('metric-earnings-val').innerText = formatCurrency(earnings);
                 document.getElementById('metric-expenses-val').innerText = formatCurrency(expenses);
-                
+
                 document.getElementById('balance-card-footer').innerText = `Projetado até Dezembro com base em ${monthsElapsed} meses`;
                 document.getElementById('earnings-card-footer').innerText = `Acumulado total de entradas no ano ${selectedYear}`;
                 document.getElementById('expenses-card-footer').innerText = `Acumulado total de saídas no ano ${selectedYear}`;
@@ -2342,8 +2574,8 @@
 
             if (filterText.trim() !== '') {
                 const query = filterText.toLowerCase();
-                filtered = filtered.filter(t => 
-                    t.description.toLowerCase().includes(query) || 
+                filtered = filtered.filter(t =>
+                    t.description.toLowerCase().includes(query) ||
                     t.topic.toLowerCase().includes(query)
                 );
             }
@@ -2415,6 +2647,15 @@
             const container = document.getElementById('goals-grid-container');
             container.innerHTML = '';
 
+            // --- Update summary bar totals ---
+            const totalSaved = state.goals.reduce((acc, g) => acc + parseFloat(g.current || 0), 0);
+            const totalTarget = state.goals.reduce((acc, g) => acc + parseFloat(g.target || 0), 0);
+            const summaryBar = document.getElementById('goals-summary-bar');
+            document.getElementById('summary-total-saved').innerText = formatCurrency(totalSaved);
+            document.getElementById('summary-total-target').innerText = formatCurrency(totalTarget);
+            document.getElementById('summary-total-count').innerText = state.goals.length;
+            summaryBar.style.display = state.goals.length === 0 ? 'none' : 'flex';
+
             if (state.goals.length === 0) {
                 container.innerHTML = `
                     <div class="empty-placeholder" style="grid-column: 1 / -1;">
@@ -2428,17 +2669,73 @@
 
             state.goals.forEach(goal => {
                 const percentage = Math.min(Math.round((goal.current / goal.target) * 100), 100);
-                
+                const hasLimit = goal.limit && parseFloat(goal.limit) > 0;
+                const limitVal = hasLimit ? parseFloat(goal.limit) : 0;
+                const isFull = hasLimit && parseFloat(goal.current) >= limitVal;
+                const isNearFull = hasLimit && !isFull && parseFloat(goal.current) >= limitVal * 0.8;
+
+                // Build capacity badge HTML
+                let limitBadgeHTML = '';
+                if (hasLimit) {
+                    const remaining = Math.max(0, limitVal - parseFloat(goal.current));
+                    if (isFull) {
+                        limitBadgeHTML = `<span class="goal-limit-badge limit-over"><i data-lucide="lock" style="width:10px;height:10px;"></i> Caixinha cheia!</span>`;
+                    } else if (isNearFull) {
+                        limitBadgeHTML = `<span class="goal-limit-badge limit-warn"><i data-lucide="alert-circle" style="width:10px;height:10px;"></i> Quase cheia — faltam ${formatCurrency(remaining)}</span>`;
+                    } else {
+                        limitBadgeHTML = `<span class="goal-limit-badge limit-ok"><i data-lucide="box" style="width:10px;height:10px;"></i> Capacidade: ${formatCurrency(limitVal)}</span>`;
+                    }
+                }
+
+                // Build deadline HTML
+                let deadlineHTML = '';
+                if (goal.deadline) {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const dlParts = goal.deadline.split('-');
+                    const deadlineDate = new Date(parseInt(dlParts[0]), parseInt(dlParts[1]) - 1, parseInt(dlParts[2]));
+                    const diffMs = deadlineDate - today;
+                    const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+                    const isGoalComplete = percentage >= 100;
+
+                    let dlClass, dlIcon, dlText;
+                    if (isGoalComplete) {
+                        dlClass = 'deadline-done';
+                        dlIcon = 'check-circle-2';
+                        dlText = 'Meta concluída! 🎉';
+                    } else if (diffDays < 0) {
+                        dlClass = 'deadline-overdue';
+                        dlIcon = 'clock-x';
+                        dlText = `Prazo vencido há ${Math.abs(diffDays)} dia${Math.abs(diffDays) !== 1 ? 's' : ''}`;
+                    } else if (diffDays === 0) {
+                        dlClass = 'deadline-urgent';
+                        dlIcon = 'alarm-clock';
+                        dlText = 'Prazo: hoje!';
+                    } else if (diffDays <= 7) {
+                        dlClass = 'deadline-urgent';
+                        dlIcon = 'alarm-clock';
+                        dlText = `Prazo em ${diffDays} dia${diffDays !== 1 ? 's' : ''} — ${formatDate(goal.deadline)}`;
+                    } else {
+                        dlClass = 'deadline-ok';
+                        dlIcon = 'calendar-clock';
+                        dlText = `Prazo: ${formatDate(goal.deadline)} (${diffDays} dias)`;
+                    }
+                    deadlineHTML = `<div class="goal-deadline ${dlClass}"><i data-lucide="${dlIcon}" style="width:13px;height:13px;flex-shrink:0;"></i> ${dlText}</div>`;
+                }
+
                 const card = document.createElement('div');
-                card.className = 'glass-card goal-card';
+                card.className = `glass-card goal-card${isFull ? ' over-limit' : ''}`;
 
                 card.innerHTML = `
                     <div class="goal-card-header">
                         <div>
                             <h3 class="goal-title">${escapeHTML(goal.name)}</h3>
+                            ${limitBadgeHTML}
                         </div>
                         <span class="goal-percentage">${percentage}%</span>
                     </div>
+
+                    ${deadlineHTML}
 
                     <!-- Progress bar -->
                     <div class="progress-container">
@@ -2481,13 +2778,13 @@
             if (!analysisTab.classList.contains('active')) return;
 
             const selectedYear = document.getElementById('metrics-year').value;
-            
+
             // Filter expenses to the selected year
             const yearExpenses = state.transactions.filter(t => {
                 const parts = t.date.split('-');
                 return t.type === 'gasto' && parts[0] === selectedYear;
             });
-            
+
             // Calculate totals by topic
             const topicTotals = {};
             const topicCounts = {};
@@ -2496,7 +2793,7 @@
             yearExpenses.forEach(e => {
                 const topic = e.topic || "Geral";
                 const amount = parseFloat(e.amount);
-                
+
                 topicTotals[topic] = (topicTotals[topic] || 0) + amount;
                 topicCounts[topic] = (topicCounts[topic] || 0) + 1;
                 grandExpenseTotal += amount;
@@ -2552,7 +2849,7 @@
                 const parts = t.date.split('-');
                 return t.type === 'ganho' && parts[0] === selectedYear;
             }).reduce((a, b) => a + parseFloat(b.amount), 0);
-            
+
             if (totalGanhos > 0) {
                 const ratio = (grandExpenseTotal / totalGanhos) * 100;
                 if (ratio > 90) {
@@ -2572,7 +2869,7 @@
 
             // Render Chart.js
             const ctx = document.getElementById('expenseChart').getContext('2d');
-            
+
             // Destroy existing instance to prevent visual overlay issues
             if (state.chartInstance) {
                 state.chartInstance.destroy();
@@ -2650,7 +2947,7 @@
                         },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     const value = context.raw;
                                     const pct = Math.round((value / grandExpenseTotal) * 100);
                                     return ` ${context.label}: R$ ${value.toFixed(2)} (${pct}%)`;
@@ -2821,7 +3118,7 @@
             document.getElementById('goal-form').reset();
             document.getElementById('goal-id').value = '';
             document.getElementById('modal-goal-title').innerText = "Criar Nova Caixinha";
-            document.getElementById('goal-current').parentElement.style.display = 'block'; // show saved input for new goals
+            document.getElementById('goal-current-group').style.display = 'block'; // show saved input for new goals
 
             const modal = document.getElementById('goal-modal');
             modal.classList.add('active');
@@ -2839,10 +3136,12 @@
             document.getElementById('goal-name').value = goal.name;
             document.getElementById('goal-target').value = goal.target;
             document.getElementById('goal-current').value = goal.current;
+            document.getElementById('goal-limit').value = goal.limit || '';
+            document.getElementById('goal-deadline').value = goal.deadline || '';
             document.getElementById('goal-id').value = goal.id;
-            
+
             document.getElementById('modal-goal-title').innerText = "Editar Caixinha";
-            document.getElementById('goal-current').parentElement.style.display = 'none'; // hide current savings input to prevent confusion
+            document.getElementById('goal-current-group').style.display = 'none'; // hide current savings input to prevent confusion
 
             const modal = document.getElementById('goal-modal');
             modal.classList.add('active');
@@ -2869,12 +3168,17 @@
             const nameInput = document.getElementById('goal-name');
             const targetInput = document.getElementById('goal-target');
             const currentInput = document.getElementById('goal-current');
+            const limitInput = document.getElementById('goal-limit');
+            const deadlineInput = document.getElementById('goal-deadline');
             const idInput = document.getElementById('goal-id');
 
             const id = idInput.value;
             const name = nameInput.value.trim();
             const target = parseFormattedNumber(targetInput.value);
             const current = parseFormattedNumber(currentInput.value) || 0;
+            const limitRaw = limitInput.value.trim();
+            const limit = limitRaw !== '' ? parseFormattedNumber(limitRaw) : 0;
+            const deadline = deadlineInput.value || '';
 
             if (target <= 0) {
                 showToast("O valor objetivo deve ser maior que zero.", "error");
@@ -2887,6 +3191,8 @@
                 if (index !== -1) {
                     state.goals[index].name = name;
                     state.goals[index].target = target;
+                    state.goals[index].limit = limit > 0 ? limit : 0;
+                    state.goals[index].deadline = deadline;
                     showToast("Caixinha atualizada com sucesso!", "success");
                 }
             } else {
@@ -2895,7 +3201,9 @@
                     id: 'goal_' + Date.now(),
                     name,
                     target,
-                    current: Math.max(0, current)
+                    current: Math.max(0, current),
+                    limit: limit > 0 ? limit : 0,
+                    deadline
                 };
                 state.goals.push(newGoal);
                 showToast("Nova caixinha criada!", "success");
@@ -2952,7 +3260,7 @@
             const input = document.getElementById('trans-topic');
             const listContainer = document.getElementById('autocomplete-list');
             listContainer.innerHTML = '';
-            
+
             // Get unique user entered categories in state.transactions
             const userCats = [...new Set(state.transactions.map(t => t.topic))];
             const allCats = [...new Set([...defaultCategories, ...userCats])];
@@ -3000,7 +3308,7 @@
 
 
         // --- 8. UI Helpers (Formatting, Escape, Icons) ---
-        
+
         // Currency display formatter
         function formatCurrency(val) {
             return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
@@ -3103,7 +3411,7 @@
 
             let iconName = 'info';
             if (type === 'success') iconName = 'check-circle-2';
-            if (type === 'error')   iconName = 'alert-circle';
+            if (type === 'error') iconName = 'alert-circle';
             if (type === 'warning') iconName = 'alert-triangle';
 
             toast.innerHTML = `
@@ -3128,4 +3436,5 @@
 
     </script>
 </body>
+
 </html>
