@@ -2095,21 +2095,33 @@
         }
 
         async function initApp() {
+            // --- Detect environment: check if PHP API is actually available ---
+            let apiAvailable = false;
             try {
-                const response = await fetch('api.php?t=' + Date.now(), { cache: 'no-store' });
-                if (!response.ok) throw new Error('API load error');
-                const data = await response.json();
-                // Always use server data (can be empty array on first access)
-                state.transactions = Array.isArray(data.transactions) ? data.transactions : [];
-                state.goals = Array.isArray(data.goals) ? data.goals : [];
-            } catch (err) {
-                console.error("Falha ao carregar dados do servidor:", err);
-                // On server error fallback to localStorage, but never mock data
+                const probe = await fetch('api.php?t=' + Date.now(), { cache: 'no-store' });
+                const contentType = probe.headers.get('content-type') || '';
+                // Only trust the API if it returns JSON (XAMPP/PHP server)
+                // On Vercel (static), api.php returns 404 or PHP source as text/html
+                if (probe.ok && contentType.includes('application/json')) {
+                    apiAvailable = true;
+                    const data = await probe.json();
+                    state.transactions = Array.isArray(data.transactions) ? data.transactions : [];
+                    state.goals = Array.isArray(data.goals) ? data.goals : [];
+                }
+            } catch (_) {
+                // Network error - API not reachable (Vercel, offline, etc.)
+                apiAvailable = false;
+            }
+
+            if (!apiAvailable) {
+                // Vercel / static hosting: use localStorage only
+                // New users will have empty localStorage → start with zeros
                 const localTrans = localStorage.getItem('glam_finance_transactions');
                 const localGoals = localStorage.getItem('glam_finance_goals');
                 state.transactions = localTrans ? JSON.parse(localTrans) : [];
                 state.goals = localGoals ? JSON.parse(localGoals) : [];
             }
+
             refreshAllUI();
         }
 
@@ -2130,21 +2142,23 @@
             try {
                 const response = await fetch('api.php?t=' + Date.now(), {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
                     cache: 'no-store'
                 });
-                if (!response.ok) throw new Error('API save error');
-            } catch (err) {
-                console.error("Falha ao salvar dados no servidor:", err);
+                const contentType = response.headers.get('content-type') || '';
+                // Ignore save if response is not JSON (Vercel/static — api.php not running)
+                if (!response.ok || !contentType.includes('application/json')) return;
+            } catch (_) {
+                // Server not available — localStorage is the source of truth (Vercel)
             }
         }
 
         function saveState() {
+            // Always persist to localStorage (works on both XAMPP and Vercel)
             saveToLocalStorage('transactions');
             saveToLocalStorage('goals');
+            // Also try the PHP server if available (XAMPP only — silent fail on Vercel)
             saveToServer();
         }
 
