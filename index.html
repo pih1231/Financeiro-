@@ -1930,6 +1930,16 @@
     <!-- ================== JAVASCRIPT STATE & LOGIC ================== -->
     <script>
         
+        // Retorna a data de hoje no fuso horário LOCAL do dispositivo (YYYY-MM-DD)
+        // IMPORTANTE: new Date().toISOString() usa UTC e pode retornar ontem para BR (UTC-3)
+        function getLocalDateString() {
+            const now   = new Date();
+            const year  = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day   = String(now.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
         // Helper to parse Brazilian formatted numeric strings (e.g. 2.418,89) into JS Floats
         function parseFormattedNumber(val) {
             if (val === undefined || val === null || val === '') return 0;
@@ -1981,8 +1991,8 @@
             initLayout();
             initApp();
             
-            // Set today's date in transaction form by default
-            document.getElementById('trans-date').value = new Date().toISOString().split('T')[0];
+            // Set today's date (local timezone — avoids UTC offset bug)
+            document.getElementById('trans-date').value = getLocalDateString();
         });
 
         // Initialize Light/Dark theme configuration
@@ -2769,8 +2779,8 @@
                 el.classList.remove('editing-highlight');
             });
 
-            // Set date to today
-            document.getElementById('trans-date').value = new Date().toISOString().split('T')[0];
+            // Set date to today (local timezone)
+            document.getElementById('trans-date').value = getLocalDateString();
 
             document.getElementById('form-trans-title').innerText = 'Nova Transação';
             document.getElementById('btn-trans-submit').innerHTML = `<i data-lucide="check"></i> Salvar Lançamento`;
