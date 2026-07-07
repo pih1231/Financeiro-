@@ -2755,6 +2755,12 @@
                 "Deseja realmente excluir este lançamento? Esta ação não pode ser desfeita.",
                 () => {
                     state.transactions = state.transactions.filter(t => t.id !== id);
+
+                    // Se o item excluído estava sendo editado, volta o formulário ao estado padrão
+                    if (state.editingId === id) {
+                        resetTransactionForm();
+                    }
+
                     saveState();
                     refreshAllUI();
                     showToast("Lançamento excluído.", "info");
