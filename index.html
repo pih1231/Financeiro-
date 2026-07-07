@@ -1,0 +1,2814 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoFlow ✨ | Sua Jornada Financeira Estilosa</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* CSS Variables for design tokens */
+        :root {
+            /* Dark Theme variables (Default) */
+            --bg-dark: #090a0f;
+            --bg-gradient: linear-gradient(135deg, #090a0f 0%, #12131e 100%);
+            --card-bg: rgba(20, 21, 33, 0.45);
+            --card-hover-bg: rgba(26, 27, 43, 0.65);
+            --border-color: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.12);
+            --dropdown-bg: #11121d;
+            --modal-bg: rgba(20, 21, 33, 0.85);
+            --input-bg: rgba(0, 0, 0, 0.25);
+            
+            /* Modern Pastel Neon Colors */
+            --neon-green: #05FF9B;
+            --neon-green-glow: rgba(5, 255, 155, 0.15);
+            --neon-green-dim: rgba(5, 255, 155, 0.08);
+            
+            --neon-pink: #FF2E93;
+            --neon-pink-glow: rgba(255, 46, 147, 0.15);
+            --neon-pink-dim: rgba(255, 46, 147, 0.08);
+            
+            --neon-purple: #8F00FF;
+            --neon-purple-glow: rgba(143, 0, 255, 0.2);
+            
+            --neon-cyan: #00F0FF;
+            --neon-cyan-glow: rgba(0, 240, 255, 0.2);
+            --neon-cyan-dim: rgba(0, 240, 255, 0.08);
+
+            --text-primary: #FFFFFF;
+            --text-secondary: #8E92B2;
+            --text-muted: #4F5375;
+            
+            --font-family: 'Plus Jakarta Sans', sans-serif;
+            --font-display: 'Outfit', sans-serif;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.light-mode {
+            /* Light Theme variables */
+            --bg-dark: #f5f6fa;
+            --bg-gradient: linear-gradient(135deg, #f5f6fa 0%, #e9ecf3 100%);
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-hover-bg: rgba(255, 255, 255, 0.95);
+            --border-color: rgba(9, 10, 15, 0.07);
+            --border-hover: rgba(9, 10, 15, 0.15);
+            --dropdown-bg: #ffffff;
+            --modal-bg: rgba(255, 255, 255, 0.96);
+            --input-bg: rgba(255, 255, 255, 0.9);
+            
+            --neon-green: #00b368; 
+            --neon-green-glow: rgba(0, 179, 104, 0.15);
+            --neon-green-dim: rgba(0, 179, 104, 0.08);
+            
+            --neon-pink: #e91e63; 
+            --neon-pink-glow: rgba(233, 30, 99, 0.15);
+            --neon-pink-dim: rgba(233, 30, 99, 0.08);
+            
+            --neon-purple: #7b2cbf; 
+            --neon-purple-glow: rgba(123, 44, 191, 0.15);
+            
+            --neon-cyan: #0096c7; 
+            --neon-cyan-glow: rgba(0, 150, 199, 0.15);
+            --neon-cyan-dim: rgba(0, 150, 199, 0.08);
+
+            --text-primary: #12131e;
+            --text-secondary: #5a5f7d;
+            --text-muted: #8d92b2;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: var(--bg-dark);
+            background-image: var(--bg-gradient);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            min-height: 100vh;
+            overflow-x: hidden;
+            letter-spacing: -0.01em;
+            line-height: 1.5;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-hover);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+
+        /* Glassmorphism utility card */
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+            transition: var(--transition);
+        }
+
+        .glass-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Layout Main Grid */
+        .app-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 6rem 1.5rem; /* bottom padding for mobile navbar */
+            transition: var(--transition);
+        }
+
+        /* Top Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.25));
+        }
+
+        .logo-text {
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-purple) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        /* Header Actions & Navigation */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Tab Navigation (Desktop) */
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 0.375rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        body.light-mode .nav-tabs {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.625rem 1.25rem;
+            font-family: var(--font-family);
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .tab-btn i {
+            width: 16px;
+            height: 16px;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn.active {
+            color: var(--neon-cyan);
+            background: rgba(0, 240, 255, 0.08);
+            box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+        }
+
+        /* Action Icon Buttons (Theme and Layout Switches) */
+        .action-icon-btn {
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        body.light-mode .action-icon-btn {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .action-icon-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--border-hover);
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(1.05);
+        }
+
+        /* Content Sections */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Temporal Metric Filter Bar */
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.875rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 16px;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .metrics-time-toggle {
+            display: flex;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 0.25rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        body.light-mode .metrics-time-toggle {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .toggle-time-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.5rem 1.25rem;
+            font-family: var(--font-family);
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .toggle-time-btn.active {
+            background: var(--neon-cyan);
+            color: #090a0f;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
+        }
+
+        .selectors-wrapper {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        /* --- DASHBOARD SECTION --- */
+        
+        /* Summary Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .metric-card {
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle glowing accents on metric cards */
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+        }
+
+        .metric-card.balance::before {
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+        }
+
+        .metric-card.earnings::before {
+            background: var(--neon-green);
+        }
+
+        .metric-card.expenses::before {
+            background: var(--neon-pink);
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .metric-icon-wrapper {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .balance .metric-icon-wrapper {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--neon-cyan);
+        }
+
+        .earnings .metric-icon-wrapper {
+            background: rgba(5, 255, 155, 0.1);
+            color: var(--neon-green);
+        }
+
+        .expenses .metric-icon-wrapper {
+            background: rgba(255, 46, 147, 0.1);
+            color: var(--neon-pink);
+        }
+
+        .metric-value {
+            font-family: var(--font-display);
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+        }
+
+        .balance .metric-value {
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+        }
+
+        .earnings .metric-value {
+            color: var(--neon-green);
+            text-shadow: 0 0 15px rgba(5, 255, 155, 0.15);
+        }
+
+        .expenses .metric-value {
+            color: var(--neon-pink);
+            text-shadow: 0 0 15px rgba(255, 46, 147, 0.15);
+        }
+
+        .metric-footer {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* Dashboard Split Area */
+        .dashboard-body {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 1.75rem;
+            align-items: start;
+            transition: var(--transition);
+        }
+
+        /* Forms Styling */
+        .form-section {
+            padding: 1.5rem;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Transaction Type Toggle Switches */
+        .type-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .type-btn {
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.75rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        body.light-mode .type-btn {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .type-btn[data-type="ganho"].active {
+            background: var(--neon-green-dim);
+            color: var(--neon-green);
+            border-color: var(--neon-green);
+            box-shadow: 0 0 12px var(--neon-green-glow);
+        }
+
+        .type-btn[data-type="gasto"].active {
+            background: var(--neon-pink-dim);
+            color: var(--neon-pink);
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 12px var(--neon-pink-glow);
+        }
+
+        .input-control {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            padding: 0.75rem 1rem;
+            font-family: var(--font-family);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .input-control:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.25);
+        }
+
+        /* Autocomplete suggestions dropdown wrapper */
+        .autocomplete-wrapper {
+            position: relative;
+        }
+        
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid var(--border-hover);
+            border-top: none;
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--dropdown-bg);
+            border-radius: 0 0 10px 10px;
+            max-height: 150px;
+            overflow-y: auto;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .autocomplete-item {
+            padding: 0.625rem 1rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+
+        .autocomplete-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--neon-cyan);
+        }
+
+        body.light-mode .autocomplete-item:hover {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-purple) 100%);
+            border: none;
+            color: #FFFFFF;
+            padding: 0.875rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-family: var(--font-family);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(143, 0, 255, 0.25);
+            transition: var(--transition);
+            margin-top: 1.5rem;
+        }
+
+        .btn-submit:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4);
+        }
+
+        /* Transactions History List */
+        .history-section {
+            padding: 1.5rem;
+        }
+
+        .section-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            flex-grow: 1;
+            justify-content: flex-end;
+            max-width: 500px;
+        }
+
+        .search-box {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            width: 16px;
+            height: 16px;
+        }
+
+        .search-box input {
+            padding-left: 2.25rem;
+        }
+
+        .filter-select {
+            width: 130px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            border-radius: 10px;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .filter-select:focus {
+            border-color: var(--neon-cyan);
+        }
+
+        .list-container {
+            max-height: 480px;
+            overflow-y: auto;
+            padding-right: 0.25rem;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            transition: var(--transition);
+        }
+
+        body.light-mode .transaction-item {
+            background: rgba(0, 0, 0, 0.01);
+        }
+
+        .transaction-item:hover {
+            border-color: var(--border-hover);
+            background: rgba(255, 255, 255, 0.03);
+            transform: translateX(4px);
+        }
+
+        body.light-mode .transaction-item:hover {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .item-details {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+        }
+
+        .category-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.25rem 0.625rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        body.light-mode .category-badge {
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .item-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .transaction-item[data-type="ganho"] .item-icon {
+            background: var(--neon-green-dim);
+            color: var(--neon-green);
+            border: 1px solid rgba(5, 255, 155, 0.15);
+        }
+
+        .transaction-item[data-type="gasto"] .item-icon {
+            background: var(--neon-pink-dim);
+            color: var(--neon-pink);
+            border: 1px solid rgba(255, 46, 147, 0.15);
+        }
+
+        .item-info h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.15rem;
+        }
+
+        .item-info .meta-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .item-financials {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .item-amount {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .transaction-item[data-type="ganho"] .item-amount {
+            color: var(--neon-green);
+        }
+
+        .transaction-item[data-type="gasto"] .item-amount {
+            color: var(--neon-pink);
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 0.35rem;
+        }
+
+        .action-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .action-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        body.light-mode .action-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .action-btn.edit:hover {
+            color: var(--neon-cyan);
+            background: var(--neon-cyan-dim);
+        }
+
+        .action-btn.delete:hover {
+            color: var(--neon-pink);
+            background: var(--neon-pink-dim);
+        }
+
+        /* Placeholder status when empty */
+        .empty-placeholder {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .empty-placeholder i {
+            margin-bottom: 1rem;
+            width: 48px;
+            height: 48px;
+            opacity: 0.5;
+        }
+
+        /* --- GOALS / CAIXINHAS SECTION --- */
+        .goals-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .btn-add-goal {
+            background: rgba(0, 240, 255, 0.08);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            color: var(--neon-cyan);
+            padding: 0.625rem 1.25rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .btn-add-goal:hover {
+            background: var(--neon-cyan);
+            color: #090a0f;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .goal-card {
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .goal-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .goal-title {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .goal-percentage {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan-glow);
+        }
+
+        /* Neon Progress Bar */
+        .progress-container {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            height: 10px;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 1.25rem;
+            border: 1px solid var(--border-color);
+        }
+
+        body.light-mode .progress-container {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--neon-purple) 0%, var(--neon-cyan) 100%);
+            box-shadow: 0 0 8px var(--neon-cyan-glow);
+            transition: width 0.6s cubic-bezier(0.1, 0.8, 0.3, 1);
+            width: 0%;
+        }
+
+        .goal-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+        }
+
+        .goal-values span strong {
+            color: var(--text-primary);
+        }
+
+        /* Quick adjust controls directly on cards */
+        .quick-adjust {
+            display: flex;
+            gap: 0.5rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.25rem;
+            align-items: center;
+        }
+
+        .quick-adjust-input {
+            flex-grow: 1;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            padding: 0.375rem 0.75rem;
+            font-size: 0.85rem;
+            width: 70px;
+        }
+
+        .btn-adjust {
+            border: none;
+            padding: 0.375rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            transition: var(--transition);
+        }
+
+        .btn-adjust.add {
+            background: var(--neon-green-dim);
+            color: var(--neon-green);
+            border: 1px solid rgba(5, 255, 155, 0.15);
+        }
+
+        .btn-adjust.add:hover {
+            background: var(--neon-green);
+            color: #090a0f;
+            box-shadow: 0 0 10px var(--neon-green-glow);
+        }
+
+        .btn-adjust.sub {
+            background: var(--neon-pink-dim);
+            color: var(--neon-pink);
+            border: 1px solid rgba(255, 46, 147, 0.15);
+        }
+
+        .btn-adjust.sub:hover {
+            background: var(--neon-pink);
+            color: #090a0f;
+            box-shadow: 0 0 10px var(--neon-pink-glow);
+        }
+
+        /* --- INSIGHTS / ANALYSIS SECTION --- */
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-container {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            height: 320px;
+            margin-top: 1rem;
+        }
+
+        .insights-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .insight-card {
+            padding: 1.5rem;
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .insight-card::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+        }
+
+        .insight-card.alert::after {
+            background: var(--neon-pink);
+        }
+
+        .insight-card.success::after {
+            background: var(--neon-green);
+        }
+
+        .insight-card.info::after {
+            background: var(--neon-cyan);
+        }
+
+        .insight-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .insight-card.alert .insight-icon {
+            background: var(--neon-pink-dim);
+            color: var(--neon-pink);
+        }
+
+        .insight-card.success .insight-icon {
+            background: var(--neon-green-dim);
+            color: var(--neon-green);
+        }
+
+        .insight-card.info .insight-icon {
+            background: var(--neon-cyan-dim);
+            color: var(--neon-cyan);
+        }
+
+        .insight-content h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+            font-family: var(--font-display);
+        }
+
+        .insight-content p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.45;
+        }
+
+        /* --- MODAL SYSTEM (Custom Overlays) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(4, 5, 8, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.light-mode .modal-overlay {
+            background: rgba(240, 242, 248, 0.8);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 480px;
+            padding: 2rem;
+            position: relative;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: var(--modal-bg) !important;
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        /* Toast Notifications */
+        #toast-container {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: rgba(18, 19, 29, 0.9);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            color: #FFFFFF;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transform: translateX(120%);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: auto;
+        }
+
+        body.light-mode .toast {
+            background: rgba(255, 255, 255, 0.95);
+            color: #12131e;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .toast.active {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--neon-green);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--neon-pink);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--neon-cyan);
+        }
+
+        .toast i {
+            flex-shrink: 0;
+        }
+
+        .toast.success i { color: var(--neon-green); }
+        .toast.error i { color: var(--neon-pink); }
+        .toast.info i { color: var(--neon-cyan); }
+
+
+        /* --- RESPONSIVE LAYOUT SYSTEM --- */
+        
+        /* Auto Desktop Styles */
+        @media (max-width: 960px) {
+            body.layout-auto .dashboard-body {
+                grid-template-columns: 1fr;
+            }
+            body.layout-auto .form-section {
+                order: -1;
+            }
+        }
+
+        /* Auto Mobile Styles */
+        @media (max-width: 768px) {
+            body.layout-auto header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            body.layout-auto .nav-tabs {
+                display: none !important; /* Hide top tabs */
+            }
+
+            body.layout-auto .mobile-nav {
+                display: flex !important;
+            }
+
+            body.layout-auto .app-container {
+                padding-top: 1rem;
+                padding-bottom: 6.5rem;
+            }
+        }
+
+        /* Force Mobile Layout Styles (Regardless of screen size) */
+        body.mobile-layout header {
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            border-bottom: 1px solid var(--border-color) !important;
+            padding-bottom: 1rem !important;
+            margin-bottom: 1.5rem !important;
+        }
+
+        body.mobile-layout .nav-tabs {
+            display: none !important;
+        }
+
+        body.mobile-layout .mobile-nav {
+            display: flex !important;
+        }
+
+        body.mobile-layout .app-container {
+            padding-top: 1rem !important;
+            padding-bottom: 6.5rem !important;
+        }
+
+        body.mobile-layout .dashboard-body {
+            grid-template-columns: 1fr !important;
+        }
+
+        body.mobile-layout .form-section {
+            order: -1 !important;
+        }
+
+        /* Force Desktop Layout overrides (Regardless of screen size) */
+        body.layout-force-desktop .nav-tabs {
+            display: flex !important;
+        }
+
+        body.layout-force-desktop .mobile-nav {
+            display: none !important;
+        }
+
+        body.layout-force-desktop .app-container {
+            padding-bottom: 2rem !important;
+        }
+
+        body.layout-force-desktop .dashboard-body {
+            grid-template-columns: 380px 1fr !important;
+        }
+
+        body.layout-force-desktop .form-section {
+            order: initial !important;
+        }
+
+        /* Mobile specific tabs configuration */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background: rgba(9, 10, 15, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-color);
+            z-index: 999;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.4);
+            transition: var(--transition);
+        }
+
+        body.light-mode .mobile-nav {
+            background: rgba(245, 246, 250, 0.9);
+            box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.05);
+        }
+
+        .mobile-tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            font-family: var(--font-family);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+        }
+
+        .mobile-tab-btn i {
+            width: 20px;
+            height: 20px;
+        }
+
+        .mobile-tab-btn.active {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan-glow);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Notification Toast Container -->
+    <div id="toast-container"></div>
+
+    <div class="app-container">
+        
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <svg viewBox="0 0 100 100" width="38" height="38" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.45)); flex-shrink: 0;">
+                    <defs>
+                        <linearGradient id="logo-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#00F0FF" />
+                            <stop offset="100%" stop-color="#8F00FF" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Star -->
+                    <path d="M 52 10 L 54 15 L 59 17 L 54 19 L 52 24 L 50 19 L 45 17 L 50 15 Z" fill="#00F0FF" />
+                    <!-- Coins -->
+                    <ellipse cx="63" cy="30" rx="7" ry="3.5" stroke="url(#logo-grad)" stroke-width="2.5" fill="#090a0f" transform="rotate(-15 63 30)"/>
+                    <ellipse cx="71" cy="38" rx="7" ry="3.5" stroke="url(#logo-grad)" stroke-width="2.5" fill="#090a0f" transform="rotate(-15 71 38)"/>
+                    <!-- N Arrow Wave -->
+                    <path d="M 22 68 C 22 50, 32 32, 45 38 C 58 44, 60 68, 72 52 C 78 44, 82 34, 84 26" stroke="url(#logo-grad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M 68 26 L 84 26 L 84 42" stroke="url(#logo-grad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="logo-text">NEOFLOW</span>
+            </div>
+            
+            <!-- Actions container -->
+            <div class="header-actions">
+                <!-- Layout Toggle Button -->
+                <button id="layout-toggle-btn" class="action-icon-btn" onclick="toggleLayoutMode()" title="Layout: Automático">
+                    <i data-lucide="monitor-smartphone"></i>
+                </button>
+
+                <!-- Theme switch toggle -->
+                <button id="theme-toggle-btn" class="action-icon-btn" onclick="toggleTheme()" title="Alternar Tema">
+                    <i data-lucide="sun"></i>
+                </button>
+
+
+
+                <!-- Tab Controls (Desktop) -->
+                <nav class="nav-tabs">
+                    <button class="tab-btn active" onclick="switchTab('dashboard')">
+                        <i data-lucide="layout-dashboard"></i> Dashboard
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('goals')">
+                        <i data-lucide="piggy-bank"></i> Caixinhas
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('analysis')">
+                        <i data-lucide="trending-up"></i> Insights & Análise
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Dynamic Temporal Metric Filter Bar -->
+        <div class="glass-card filter-bar">
+            <div class="metrics-time-toggle">
+                <button class="toggle-time-btn active" id="time-btn-monthly" onclick="setMetricsTimeMode('monthly')">Mensal</button>
+                <button class="toggle-time-btn" id="time-btn-yearly" onclick="setMetricsTimeMode('yearly')">Anual</button>
+            </div>
+            <div class="selectors-wrapper">
+                <select id="metrics-month" class="filter-select" onchange="refreshAllUI()">
+                    <option value="01">Janeiro</option>
+                    <option value="02">Fevereiro</option>
+                    <option value="03">Março</option>
+                    <option value="04">Abril</option>
+                    <option value="05">Maio</option>
+                    <option value="06">Junho</option>
+                    <option value="07" selected>Julho</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Setembro</option>
+                    <option value="10">Outubro</option>
+                    <option value="11">Novembro</option>
+                    <option value="12">Dezembro</option>
+                </select>
+                <select id="metrics-year" class="filter-select" onchange="refreshAllUI()">
+                    <option value="2025">2025</option>
+                    <option value="2026" selected>2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ================== TAB: DASHBOARD ================== -->
+        <main id="tab-dashboard" class="tab-content active">
+            
+            <!-- Resumo Financeiro (Cards) -->
+            <div class="metrics-grid">
+                
+                <!-- Saldo Card -->
+                <div class="glass-card metric-card balance">
+                    <div class="metric-header">
+                        <span id="balance-card-title">SALDO MENSAL</span>
+                        <div class="metric-icon-wrapper">
+                            <i data-lucide="wallet"></i>
+                        </div>
+                    </div>
+                    <div id="metric-balance-val" class="metric-value">R$ 0,00</div>
+                    <div class="metric-footer">
+                        <i data-lucide="info" style="width:12px;height:12px;"></i>
+                        <span id="balance-card-footer">Saldo líquido do mês selecionado</span>
+                    </div>
+                </div>
+
+                <!-- Ganhos Card -->
+                <div class="glass-card metric-card earnings">
+                    <div class="metric-header">
+                        <span id="earnings-card-title">RECEITAS MENSAIS</span>
+                        <div class="metric-icon-wrapper">
+                            <i data-lucide="trending-up"></i>
+                        </div>
+                    </div>
+                    <div id="metric-earnings-val" class="metric-value">R$ 0,00</div>
+                    <div class="metric-footer" style="color: var(--neon-green);">
+                        <i data-lucide="arrow-up-right" style="width:12px;height:12px;"></i>
+                        <span id="earnings-card-footer">Entradas no período</span>
+                    </div>
+                </div>
+
+                <!-- Gastos Card -->
+                <div class="glass-card metric-card expenses">
+                    <div class="metric-header">
+                        <span id="expenses-card-title">DESPESAS MENSAIS</span>
+                        <div class="metric-icon-wrapper">
+                            <i data-lucide="trending-down"></i>
+                        </div>
+                    </div>
+                    <div id="metric-expenses-val" class="metric-value">R$ 0,00</div>
+                    <div class="metric-footer" style="color: var(--neon-pink);">
+                        <i data-lucide="arrow-down-left" style="width:12px;height:12px;"></i>
+                        <span id="expenses-card-footer">Saídas no período</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Dashboard Split (Form e Histórico) -->
+            <div class="dashboard-body">
+                
+                <!-- Adicionar Transação Card -->
+                <section class="glass-card form-section">
+                    <h2 class="section-title">
+                        <i data-lucide="plus-circle" style="color: var(--neon-cyan);"></i>
+                        <span id="form-trans-title">Nova Transação</span>
+                    </h2>
+                    
+                    <form id="transaction-form" onsubmit="handleTransactionSubmit(event)">
+                        <!-- Type selector -->
+                        <div class="type-selector">
+                            <button type="button" class="type-btn active" data-type="ganho" onclick="setFormType('ganho')">
+                                <i data-lucide="arrow-up-right"></i> Receita
+                            </button>
+                            <button type="button" class="type-btn" data-type="gasto" onclick="setFormType('gasto')">
+                                <i data-lucide="arrow-down-left"></i> Despesa
+                            </button>
+                        </div>
+                        
+                        <!-- Value Input -->
+                        <div class="form-group">
+                            <label for="trans-value">Valor (R$)</label>
+                            <input type="text" id="trans-value" class="input-control" placeholder="0,00" required>
+                        </div>
+
+                        <!-- Topic / Category Input with Suggestions -->
+                        <div class="form-group">
+                            <label for="trans-topic">Tópico / Categoria</label>
+                            <div class="autocomplete-wrapper">
+                                <input type="text" id="trans-topic" class="input-control" placeholder="Ex: Alimentação, Salário" required autocomplete="off" onfocus="showSuggestions()" oninput="filterSuggestions()">
+                                <div id="autocomplete-list" class="autocomplete-items" style="display: none;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Date Input -->
+                        <div class="form-group">
+                            <label for="trans-date">Data</label>
+                            <input type="date" id="trans-date" class="input-control" required>
+                        </div>
+
+                        <!-- Description Input -->
+                        <div class="form-group">
+                            <label for="trans-desc">Descrição</label>
+                            <input type="text" id="trans-desc" class="input-control" placeholder="Ex: Mercado semanal, Freela" required>
+                        </div>
+
+                        <input type="hidden" id="trans-id">
+
+                        <button type="submit" class="btn-submit" id="btn-trans-submit">
+                            <i data-lucide="check"></i> Salvar Lançamento
+                        </button>
+                        <button type="button" class="btn-submit" id="btn-trans-cancel" style="display: none; background: rgba(255, 255, 255, 0.05); color: var(--text-secondary); box-shadow: none; margin-top: 0.5rem;" onclick="resetTransactionForm()">
+                            Cancelar Edição
+                        </button>
+                    </form>
+                </section>
+
+                <!-- Histórico de Transações -->
+                <section class="glass-card history-section">
+                    <div class="section-header-row">
+                        <h2 class="section-title" style="margin-bottom: 0;">
+                            <i data-lucide="history" style="color: var(--neon-cyan);"></i>
+                            Histórico de Lançamentos
+                        </h2>
+                        
+                        <!-- Filtros e Pesquisa -->
+                        <div class="search-filters">
+                            <select id="filter-type" class="filter-select" onchange="filterHistory()">
+                                <option value="all">Todos</option>
+                                <option value="ganho">Receitas</option>
+                                <option value="gasto">Despesas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Lista Renderizada -->
+                    <div id="transactions-list" class="list-container">
+                        <!-- Items rendered by JavaScript -->
+                    </div>
+                </section>
+
+            </div>
+
+        </main>
+
+        <!-- ================== TAB: GOALS / CAIXINHAS ================== -->
+        <main id="tab-goals" class="tab-content">
+            
+            <div class="goals-header">
+                <h2 class="section-title" style="margin-bottom: 0;">
+                    <i data-lucide="piggy-bank" style="color: var(--neon-purple);"></i>
+                    Metas de Poupança ("Caixinhas")
+                </h2>
+                <button class="btn-add-goal" onclick="openGoalModal()">
+                    <i data-lucide="plus"></i> Criar Nova Caixinha
+                </button>
+            </div>
+
+            <!-- Goals Grid -->
+            <div id="goals-grid-container" class="goals-grid">
+                <!-- Cards rendered by JavaScript -->
+            </div>
+
+        </main>
+
+        <!-- ================== TAB: ANALYSIS / INSIGHTS ================== -->
+        <main id="tab-analysis" class="tab-content">
+            
+            <h2 class="section-title" style="margin-bottom: 2rem;">
+                <i data-lucide="trending-up" style="color: var(--neon-cyan);"></i>
+                Inteligência & Gastos Frequentes
+            </h2>
+
+            <div class="analysis-grid">
+                
+                <!-- Chart Section -->
+                <div class="glass-card chart-container">
+                    <h3 class="section-title" style="font-size: 1.1rem; margin-bottom: 0.5rem; text-align: center;">
+                        Distribuição de Gastos por Categoria
+                    </h3>
+                    <p style="font-size: 0.8rem; color: var(--text-secondary); text-align: center; margin-bottom: 1.5rem;">
+                        Proporção de gastos em cada tópico no ano
+                    </p>
+                    <div class="chart-wrapper">
+                        <canvas id="expenseChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Insights Panel -->
+                <div class="insights-panel">
+                    
+                    <!-- Frequência Card -->
+                    <div id="insight-freq" class="glass-card insight-card alert">
+                        <div class="insight-icon">
+                            <i data-lucide="alert-triangle"></i>
+                        </div>
+                        <div class="insight-content">
+                            <h3>Tópico Mais Frequente</h3>
+                            <p id="insight-freq-text">Calculando hábitos de gastos...</p>
+                        </div>
+                    </div>
+
+                    <!-- Maior Custo Card -->
+                    <div id="insight-cost" class="glass-card insight-card alert">
+                        <div class="insight-icon">
+                            <i data-lucide="dollar-sign"></i>
+                        </div>
+                        <div class="insight-content">
+                            <h3>Maior Impacto no Orçamento</h3>
+                            <p id="insight-cost-text">Calculando gastos acumulados...</p>
+                        </div>
+                    </div>
+
+                    <!-- Dica Inteligente Card -->
+                    <div id="insight-status" class="glass-card insight-card info">
+                        <div class="insight-icon">
+                            <i data-lucide="lightbulb"></i>
+                        </div>
+                        <div class="insight-content">
+                            <h3>Insight NeoFlow</h3>
+                            <p id="insight-status-text">Analise o saldo das suas caixinhas e crie metas para manter as contas sob controle.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- ================== MODAL: GOAL FORM ================== -->
+    <div id="goal-modal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'goal-modal')">
+        <div class="glass-card modal-box">
+            <button class="modal-close" onclick="closeGoalModal()">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="modal-header">
+                <h2 id="modal-goal-title">Criar Nova Caixinha</h2>
+            </div>
+            <form id="goal-form" onsubmit="handleGoalSubmit(event)">
+                <input type="hidden" id="goal-id">
+                
+                <div class="form-group">
+                    <label for="goal-name">Nome da Meta</label>
+                    <input type="text" id="goal-name" class="input-control" placeholder="Ex: Viagem do Ano, Troca de Carro" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="goal-target">Valor Objetivo (R$)</label>
+                    <input type="text" id="goal-target" class="input-control" placeholder="0,00" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="goal-current">Valor Guardado Inicial (R$)</label>
+                    <input type="text" id="goal-current" class="input-control" placeholder="0,00" value="0">
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i data-lucide="check"></i> Confirmar Meta
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation Bottom Bar -->
+    <nav class="mobile-nav">
+        <button class="mobile-tab-btn active" id="m-tab-dashboard" onclick="switchTab('dashboard')">
+            <i data-lucide="layout-dashboard"></i>
+            <span>Início</span>
+        </button>
+        <button class="mobile-tab-btn" id="m-tab-goals" onclick="switchTab('goals')">
+            <i data-lucide="piggy-bank"></i>
+            <span>Caixinhas</span>
+        </button>
+        <button class="mobile-tab-btn" id="m-tab-analysis" onclick="switchTab('analysis')">
+            <i data-lucide="trending-up"></i>
+            <span>Análise</span>
+        </button>
+    </nav>
+
+    <!-- ================== JAVASCRIPT STATE & LOGIC ================== -->
+    <script>
+        
+        // Helper to parse Brazilian formatted numeric strings (e.g. 2.418,89) into JS Floats
+        function parseFormattedNumber(val) {
+            if (val === undefined || val === null || val === '') return 0;
+            let s = val.toString().trim();
+            // Remove R$ or any currency symbol if present
+            s = s.replace(/R\$\s?/gi, '');
+            
+            if (s.includes('.') && s.includes(',')) {
+                // Ex: 2.418,89 -> remove dots, replace comma with dot
+                s = s.replace(/\./g, '').replace(',', '.');
+            } else if (s.includes(',')) {
+                // Ex: 2418,89 -> replace comma with dot
+                s = s.replace(',', '.');
+            } else if (s.includes('.')) {
+                // Ex: 2.418 -> if followed by exactly 3 digits, it's a thousand separator
+                if (/^\d+\.\d{3}$/.test(s)) {
+                    s = s.replace('.', '');
+                }
+            }
+            const num = parseFloat(s);
+            return isNaN(num) ? 0 : num;
+        }
+
+        // --- 1. Global State Definition ---
+        const state = {
+            transactions: [],
+            goals: [],
+            activeFormType: 'ganho', // 'ganho' (Receita) or 'gasto' (Despesa)
+            metricsTimeMode: 'monthly', // 'monthly' or 'yearly'
+            layoutMode: 'auto', // 'auto', 'desktop', 'mobile'
+            chartInstance: null
+        };
+
+        // Standard autocomplete categories suggestions
+        const defaultCategories = [
+            "Alimentação", "Transporte", "Moradia", "Lazer", "Saúde", 
+            "Educação", "Salário", "Freelance", "Assinaturas", "Compras", "Outros"
+        ];
+
+        // --- 2. Initial Mock Data ---
+        const mockTransactions = [
+            { id: "t1", type: "ganho", amount: 5500.00, description: "Salário Base Mensal", topic: "Salário", date: "2026-07-01" },
+            { id: "t2", type: "gasto", amount: 150.00, description: "Jantar Sexta Ifood", topic: "Alimentação", date: "2026-07-03" },
+            { id: "t3", type: "gasto", amount: 45.50, description: "Corrida Uber Trabalho", topic: "Transporte", date: "2026-07-04" },
+            { id: "t4", type: "gasto", amount: 1200.00, description: "Aluguel Apartamento", topic: "Moradia", date: "2026-07-05" },
+            { id: "t5", type: "gasto", amount: 350.00, description: "Casaco Inverno Zara", topic: "Compras", date: "2026-07-05" },
+            { id: "t6", type: "ganho", amount: 850.00, description: "Desenvolvimento Site Freela", topic: "Freelance", date: "2026-07-06" },
+            { id: "t7", type: "gasto", amount: 55.90, description: "Assinatura Netflix Premium", topic: "Assinaturas", date: "2026-07-06" },
+            { id: "t8", type: "gasto", amount: 420.00, description: "Mercado da Semana", topic: "Alimentação", date: "2026-07-06" }
+        ];
+
+        const mockGoals = [
+            { id: "g1", name: "Reserva de Emergência 🛡️", target: 15000.00, current: 9000.00 },
+            { id: "g2", name: "Viagem de Fim de Ano ✈️", target: 8000.00, current: 3600.00 },
+            { id: "g3", name: "Trocar de Smartphone 📱", target: 6000.00, current: 4800.00 }
+        ];
+
+        // --- 3. App Initialization ---
+        window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            initLayout();
+            initApp();
+            
+            // Set today's date in transaction form by default
+            document.getElementById('trans-date').value = new Date().toISOString().split('T')[0];
+        });
+
+        // Initialize Light/Dark theme configuration
+        function initTheme() {
+            const savedTheme = localStorage.getItem('glam_finance_theme') || 'dark';
+            const body = document.body;
+            const themeBtn = document.getElementById('theme-toggle-btn');
+            
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+                themeBtn.innerHTML = `<i data-lucide="moon"></i>`;
+            } else {
+                body.classList.remove('light-mode');
+                themeBtn.innerHTML = `<i data-lucide="sun"></i>`;
+            }
+            lucide.createIcons();
+        }
+
+        // Toggle Theme
+        function toggleTheme() {
+            const body = document.body;
+            const themeBtn = document.getElementById('theme-toggle-btn');
+            
+            if (body.classList.contains('light-mode')) {
+                body.classList.remove('light-mode');
+                localStorage.setItem('glam_finance_theme', 'dark');
+                themeBtn.innerHTML = `<i data-lucide="sun"></i>`;
+                showToast("Modo Escuro ativado!", "info");
+            } else {
+                body.classList.add('light-mode');
+                localStorage.setItem('glam_finance_theme', 'light');
+                themeBtn.innerHTML = `<i data-lucide="moon"></i>`;
+                showToast("Modo Claro ativado!", "info");
+            }
+            lucide.createIcons();
+            
+            // Re-render analysis if chart is active
+            renderAnalysisTab();
+        }
+
+        // Initialize layout configuration
+        function initLayout() {
+            state.layoutMode = localStorage.getItem('glam_finance_layout_mode') || 'auto';
+            syncLayout();
+            
+            // Listen for window resize to adapt automatic layouts dynamically
+            window.addEventListener('resize', () => {
+                if (state.layoutMode === 'auto') {
+                    syncLayout();
+                }
+            });
+        }
+
+        // Sync visual classes and layouts based on state
+        function syncLayout() {
+            const body = document.body;
+            const isWindowMobile = window.innerWidth <= 768;
+            
+            body.classList.remove('layout-auto', 'layout-force-desktop', 'layout-force-mobile', 'mobile-layout');
+            
+            if (state.layoutMode === 'desktop') {
+                body.classList.add('layout-force-desktop');
+            } else if (state.layoutMode === 'mobile') {
+                body.classList.add('layout-force-mobile', 'mobile-layout');
+            } else {
+                body.classList.add('layout-auto');
+                if (isWindowMobile) {
+                    body.classList.add('mobile-layout');
+                }
+            }
+            
+            updateLayoutTogglerButton();
+        }
+
+        // Toggle layout setting
+        function toggleLayoutMode() {
+            if (state.layoutMode === 'auto') {
+                state.layoutMode = 'desktop';
+                showToast("Layout de Computador ativado!", "info");
+            } else if (state.layoutMode === 'desktop') {
+                state.layoutMode = 'mobile';
+                showToast("Layout de Celular ativado!", "info");
+            } else {
+                state.layoutMode = 'auto';
+                showToast("Layout Automático ativado (conforme tela)!", "info");
+            }
+            localStorage.setItem('glam_finance_layout_mode', state.layoutMode);
+            syncLayout();
+        }
+
+        // Update the header button text and tooltip according to the layout state
+        function updateLayoutTogglerButton() {
+            const btn = document.getElementById('layout-toggle-btn');
+            if (!btn) return;
+            
+            let iconName = 'monitor-smartphone';
+            let title = 'Layout: Automático';
+            
+            if (state.layoutMode === 'desktop') {
+                iconName = 'monitor';
+                title = 'Layout: Computador';
+            } else if (state.layoutMode === 'mobile') {
+                iconName = 'smartphone';
+                title = 'Layout: Celular';
+            }
+            
+            btn.innerHTML = `<i data-lucide="${iconName}"></i>`;
+            btn.setAttribute('title', title);
+            lucide.createIcons();
+        }
+
+        async function initApp() {
+            try {
+                const response = await fetch('api.php?t=' + Date.now(), { cache: 'no-store' });
+                if (!response.ok) throw new Error('API load error');
+                const data = await response.json();
+                
+                state.transactions = data.transactions && data.transactions.length > 0 ? data.transactions : [...mockTransactions];
+                state.goals = data.goals && data.goals.length > 0 ? data.goals : [...mockGoals];
+                
+                // If it was empty or new, trigger initial save
+                if (!data.transactions || data.transactions.length === 0 || !data.goals || data.goals.length === 0) {
+                    saveToServer();
+                }
+            } catch (err) {
+                console.error("Falha ao carregar dados do servidor:", err);
+                showToast("Carregando dados do navegador local.", "info");
+                
+                const localTrans = localStorage.getItem('glam_finance_transactions');
+                const localGoals = localStorage.getItem('glam_finance_goals');
+                state.transactions = localTrans ? JSON.parse(localTrans) : [...mockTransactions];
+                state.goals = localGoals ? JSON.parse(localGoals) : [...mockGoals];
+            }
+            refreshAllUI();
+        }
+
+        // --- Helper: LocalStorage & Server saves ---
+        function saveToLocalStorage(key) {
+            if (key === 'transactions') {
+                localStorage.setItem('glam_finance_transactions', JSON.stringify(state.transactions));
+            } else if (key === 'goals') {
+                localStorage.setItem('glam_finance_goals', JSON.stringify(state.goals));
+            }
+        }
+
+        async function saveToServer() {
+            const payload = {
+                transactions: state.transactions,
+                goals: state.goals
+            };
+            try {
+                const response = await fetch('api.php?t=' + Date.now(), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload),
+                    cache: 'no-store'
+                });
+                if (!response.ok) throw new Error('API save error');
+            } catch (err) {
+                console.error("Falha ao salvar dados no servidor:", err);
+            }
+        }
+
+        function saveState() {
+            saveToLocalStorage('transactions');
+            saveToLocalStorage('goals');
+            saveToServer();
+        }
+
+        // --- 4. Tab Navigation System ---
+        function switchTab(tabId) {
+            // Toggle active tabs in desktop navbar
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.getAttribute('onclick').includes(tabId)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Toggle active tabs in mobile navbar
+            document.querySelectorAll('.mobile-tab-btn').forEach(btn => {
+                if (btn.id === `m-tab-${tabId}`) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Toggle active screens
+            document.querySelectorAll('.tab-content').forEach(section => {
+                if (section.id === `tab-${tabId}`) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+
+            // Trigger redraw of Charts when analysis tab is shown
+            if (tabId === 'analysis') {
+                setTimeout(renderAnalysisTab, 50);
+            }
+        }
+
+        // Toggles Temporal Metric Mode (Mensal / Anual)
+        function setMetricsTimeMode(mode) {
+            state.metricsTimeMode = mode;
+            const btnMonthly = document.getElementById('time-btn-monthly');
+            const btnYearly = document.getElementById('time-btn-yearly');
+            const monthSelect = document.getElementById('metrics-month');
+            
+            if (mode === 'monthly') {
+                btnMonthly.classList.add('active');
+                btnYearly.classList.remove('active');
+                monthSelect.style.display = 'block';
+            } else {
+                btnMonthly.classList.remove('active');
+                btnYearly.classList.add('active');
+                monthSelect.style.display = 'none';
+            }
+            refreshAllUI();
+        }
+
+        // --- 5. UI Rendering & Computations ---
+        function refreshAllUI() {
+            updateSummaryCards();
+            renderTransactionsList();
+            renderGoalsList();
+            renderAnalysisTab();
+        }
+
+        // Update top cards (Balance, Ganhos, Gastos) based on date filter and time mode
+        function updateSummaryCards() {
+            const selectedYear = document.getElementById('metrics-year').value;
+            const selectedMonth = document.getElementById('metrics-month').value;
+            const mode = state.metricsTimeMode;
+            
+            let filteredTrans = [];
+            
+            if (mode === 'monthly') {
+                filteredTrans = state.transactions.filter(t => {
+                    const parts = t.date.split('-');
+                    return parts[0] === selectedYear && parts[1] === selectedMonth;
+                });
+                
+                document.getElementById('balance-card-title').innerText = "SALDO MENSAL";
+                document.getElementById('earnings-card-title').innerText = "RECEITAS MENSAIS";
+                document.getElementById('expenses-card-title').innerText = "DESPESAS MENSAIS";
+                
+                let earnings = 0;
+                let expenses = 0;
+                filteredTrans.forEach(t => {
+                    if (t.type === 'ganho') earnings += parseFloat(t.amount);
+                    else expenses += parseFloat(t.amount);
+                });
+                
+                const balance = earnings - expenses;
+                
+                document.getElementById('metric-balance-val').innerText = formatCurrency(balance);
+                document.getElementById('metric-earnings-val').innerText = formatCurrency(earnings);
+                document.getElementById('metric-expenses-val').innerText = formatCurrency(expenses);
+                
+                document.getElementById('balance-card-footer').innerText = `Saldo líquido de ${getMonthName(selectedMonth)}/${selectedYear}`;
+                document.getElementById('earnings-card-footer').innerText = `Entradas em ${getMonthName(selectedMonth)}`;
+                document.getElementById('expenses-card-footer').innerText = `Saídas em ${getMonthName(selectedMonth)}`;
+            } else {
+                // Yearly Mode
+                filteredTrans = state.transactions.filter(t => {
+                    const parts = t.date.split('-');
+                    return parts[0] === selectedYear;
+                });
+                
+                document.getElementById('balance-card-title').innerText = "PROJEÇÃO DE ECONOMIA";
+                document.getElementById('earnings-card-title').innerText = "RECEITAS ANUAIS";
+                document.getElementById('expenses-card-title').innerText = "DESPESAS ANUAIS";
+                
+                let earnings = 0;
+                let expenses = 0;
+                filteredTrans.forEach(t => {
+                    if (t.type === 'ganho') earnings += parseFloat(t.amount);
+                    else expenses += parseFloat(t.amount);
+                });
+                
+                // Calculate elapsed months for projection in selected Year
+                const today = new Date();
+                let monthsElapsed = 12;
+                if (selectedYear === today.getFullYear().toString()) {
+                    monthsElapsed = today.getMonth() + 1; // 1-indexed
+                }
+                
+                // Simple Year-End Projection savings calculation
+                const netSavingsYearToDate = earnings - expenses;
+                const monthlySavingsAvg = netSavingsYearToDate / monthsElapsed;
+                const remainingMonths = 12 - monthsElapsed;
+                const projectedSavings = netSavingsYearToDate + (monthlySavingsAvg > 0 ? monthlySavingsAvg * remainingMonths : 0);
+                
+                document.getElementById('metric-balance-val').innerText = formatCurrency(projectedSavings);
+                document.getElementById('metric-earnings-val').innerText = formatCurrency(earnings);
+                document.getElementById('metric-expenses-val').innerText = formatCurrency(expenses);
+                
+                document.getElementById('balance-card-footer').innerText = `Projetado até Dezembro com base em ${monthsElapsed} meses`;
+                document.getElementById('earnings-card-footer').innerText = `Acumulado total de entradas no ano ${selectedYear}`;
+                document.getElementById('expenses-card-footer').innerText = `Acumulado total de saídas no ano ${selectedYear}`;
+            }
+        }
+
+        // Render Transaction List (Filterable & Searchable)
+        function renderTransactionsList(filterText = '', filterType = 'all') {
+            const listContainer = document.getElementById('transactions-list');
+            listContainer.innerHTML = '';
+
+            let filtered = state.transactions;
+
+            // Apply type filter
+            if (filterType !== 'all') {
+                filtered = filtered.filter(t => t.type === filterType);
+            }
+
+            // Apply search text filter
+            if (filterText.trim() !== '') {
+                const query = filterText.toLowerCase();
+                filtered = filtered.filter(t => 
+                    t.description.toLowerCase().includes(query) || 
+                    t.topic.toLowerCase().includes(query)
+                );
+            }
+
+            // Sort transactions by date descending (newest first)
+            filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if (filtered.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="empty-placeholder">
+                        <i data-lucide="inbox"></i>
+                        <p>Nenhum lançamento encontrado.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            filtered.forEach(t => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'transaction-item';
+                itemDiv.setAttribute('data-type', t.type);
+
+                // Determine icon based on category/topic
+                const iconName = getCategoryIcon(t.topic);
+
+                itemDiv.innerHTML = `
+                    <div class="item-details">
+                        <div class="item-icon">
+                            <i data-lucide="${iconName}"></i>
+                        </div>
+                        <div class="item-info">
+                            <h4>${escapeHTML(t.description)}</h4>
+                            <div class="meta-text">
+                                <span class="category-badge">${escapeHTML(t.topic)}</span>
+                                <span><i data-lucide="calendar" style="width:12px;height:12px;display:inline-block;vertical-align:middle;margin-right:2px;"></i>${formatDate(t.date)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-financials">
+                        <span class="item-amount">${t.type === 'ganho' ? '+' : '-'} ${formatCurrency(t.amount)}</span>
+                        <div class="item-actions">
+                            <button class="action-btn edit" onclick="editTransaction('${t.id}')" title="Editar">
+                                <i data-lucide="edit-3" style="width:16px;height:16px;"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteTransaction('${t.id}')" title="Excluir">
+                                <i data-lucide="trash-2" style="width:16px;height:16px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                listContainer.appendChild(itemDiv);
+            });
+
+            lucide.createIcons();
+        }
+
+        // Render Goals (Caixinhas)
+        function renderGoalsList() {
+            const container = document.getElementById('goals-grid-container');
+            container.innerHTML = '';
+
+            if (state.goals.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-placeholder" style="grid-column: 1 / -1;">
+                        <i data-lucide="piggy-bank"></i>
+                        <p>Nenhuma caixinha criada ainda. Crie metas para planejar seu futuro!</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            state.goals.forEach(goal => {
+                const percentage = Math.min(Math.round((goal.current / goal.target) * 100), 100);
+                
+                const card = document.createElement('div');
+                card.className = 'glass-card goal-card';
+
+                card.innerHTML = `
+                    <div class="goal-card-header">
+                        <div>
+                            <h3 class="goal-title">${escapeHTML(goal.name)}</h3>
+                        </div>
+                        <span class="goal-percentage">${percentage}%</span>
+                    </div>
+
+                    <!-- Progress bar -->
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: ${percentage}%"></div>
+                    </div>
+
+                    <div class="goal-values">
+                        <span>Guardado: <strong>${formatCurrency(goal.current)}</strong></span>
+                        <span>Objetivo: <strong>${formatCurrency(goal.target)}</strong></span>
+                    </div>
+
+                    <!-- Quick balance adjust and edit actions -->
+                    <div class="quick-adjust">
+                        <input type="text" placeholder="0" class="quick-adjust-input" id="adj-val-${goal.id}">
+                        <button class="btn-adjust add" onclick="handleGoalQuickAdjust('${goal.id}', 'add')">
+                            <i data-lucide="plus" style="width:12px;height:12px;"></i>
+                        </button>
+                        <button class="btn-adjust sub" onclick="handleGoalQuickAdjust('${goal.id}', 'sub')">
+                            <i data-lucide="minus" style="width:12px;height:12px;"></i>
+                        </button>
+                        <div style="flex-grow: 1;"></div>
+                        <button class="action-btn edit" onclick="editGoal('${goal.id}')" style="align-self: center;" title="Editar">
+                            <i data-lucide="edit-3" style="width:14px;height:14px;"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteGoal('${goal.id}')" style="align-self: center;" title="Excluir">
+                            <i data-lucide="trash-2" style="width:14px;height:14px;"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            lucide.createIcons();
+        }
+
+        // Render Analytics (Chart.js and Insights text cards)
+        function renderAnalysisTab() {
+            // Check if analysis tab is active (don't compile charts in background if not visible)
+            const analysisTab = document.getElementById('tab-analysis');
+            if (!analysisTab.classList.contains('active')) return;
+
+            const selectedYear = document.getElementById('metrics-year').value;
+            
+            // Filter expenses to the selected year
+            const yearExpenses = state.transactions.filter(t => {
+                const parts = t.date.split('-');
+                return t.type === 'gasto' && parts[0] === selectedYear;
+            });
+            
+            // Calculate totals by topic
+            const topicTotals = {};
+            const topicCounts = {};
+            let grandExpenseTotal = 0;
+
+            yearExpenses.forEach(e => {
+                const topic = e.topic || "Geral";
+                const amount = parseFloat(e.amount);
+                
+                topicTotals[topic] = (topicTotals[topic] || 0) + amount;
+                topicCounts[topic] = (topicCounts[topic] || 0) + 1;
+                grandExpenseTotal += amount;
+            });
+
+            // Gather elements for dynamic insights
+            const freqCard = document.getElementById('insight-freq');
+            const costCard = document.getElementById('insight-cost');
+            const statusCard = document.getElementById('insight-status');
+            const freqText = document.getElementById('insight-freq-text');
+            const costText = document.getElementById('insight-cost-text');
+            const statusText = document.getElementById('insight-status-text');
+
+            // Find top frequent expense category
+            let topFreqTopic = "";
+            let maxFreq = 0;
+            for (const [topic, count] of Object.entries(topicCounts)) {
+                if (count > maxFreq) {
+                    maxFreq = count;
+                    topFreqTopic = topic;
+                }
+            }
+
+            // Find highest cost expense category
+            let topCostTopic = "";
+            let maxCost = 0;
+            for (const [topic, cost] of Object.entries(topicTotals)) {
+                if (cost > maxCost) {
+                    maxCost = cost;
+                    topCostTopic = topic;
+                }
+            }
+
+            // Update Insights dynamic cards
+            if (maxFreq > 0) {
+                freqCard.className = 'glass-card insight-card alert';
+                freqText.innerHTML = `⚠️ Seu gasto mais frequente no ano de ${selectedYear} é com <strong>${escapeHTML(topFreqTopic)}</strong>. Foram registradas <strong>${maxFreq} despesas</strong> nesse tópico.`;
+            } else {
+                freqCard.className = 'glass-card insight-card info';
+                freqText.innerText = `Nenhuma despesa registrada no ano de ${selectedYear}. Lance seus gastos no Dashboard para compilar seus hábitos.`;
+            }
+
+            if (maxCost > 0) {
+                costCard.className = 'glass-card insight-card alert';
+                costText.innerHTML = `💸 O maior impacto no orçamento anual vem de <strong>${escapeHTML(topCostTopic)}</strong>, acumulando um montante de <strong>${formatCurrency(maxCost)}</strong> (${Math.round((maxCost / grandExpenseTotal) * 100)}% de todos os seus gastos).`;
+            } else {
+                costCard.className = 'glass-card insight-card info';
+                costText.innerText = "Parabéns! Sem gastos registrados até agora, seu orçamento está totalmente intacto.";
+            }
+
+            // Financial health score insight
+            const totalGanhos = state.transactions.filter(t => {
+                const parts = t.date.split('-');
+                return t.type === 'ganho' && parts[0] === selectedYear;
+            }).reduce((a, b) => a + parseFloat(b.amount), 0);
+            
+            if (totalGanhos > 0) {
+                const ratio = (grandExpenseTotal / totalGanhos) * 100;
+                if (ratio > 90) {
+                    statusCard.className = 'glass-card insight-card alert';
+                    statusText.innerHTML = `⚠️ <strong>Sinal Vermelho:</strong> Seus gastos correspondem a <strong>${Math.round(ratio)}%</strong> de suas receitas totais no ano. Você está operando no limite financeiro. Considere cortar despesas em ${escapeHTML(topCostTopic)}.`;
+                } else if (ratio > 70) {
+                    statusCard.className = 'glass-card insight-card alert';
+                    statusText.innerHTML = `💡 <strong>Atenção:</strong> Você comprometeu <strong>${Math.round(ratio)}%</strong> da sua renda em ${selectedYear}. A recomendação do NeoFlow é destinar até 60% para custos e guardar o restante.`;
+                } else {
+                    statusCard.className = 'glass-card insight-card success';
+                    statusText.innerHTML = `✨ <strong>Saúde Financeira Excelente:</strong> Seus gastos totalizam apenas <strong>${Math.round(ratio)}%</strong> de seus ganhos em ${selectedYear}. Continue distribuindo o saldo livre em suas Caixinhas de poupança!`;
+                }
+            } else {
+                statusCard.className = 'glass-card insight-card info';
+                statusText.innerText = "Dica: Registre seu salário ou outras fontes de ganhos no Dashboard para que possamos calcular o nível de poupança.";
+            }
+
+            // Render Chart.js
+            const ctx = document.getElementById('expenseChart').getContext('2d');
+            
+            // Destroy existing instance to prevent visual overlay issues
+            if (state.chartInstance) {
+                state.chartInstance.destroy();
+            }
+
+            const topics = Object.keys(topicTotals);
+            const values = Object.values(topicTotals);
+
+            // Theme sensitive font color
+            const isLight = document.body.classList.contains('light-mode');
+            const fontColor = isLight ? '#5a5f7d' : '#8E92B2';
+
+            // Palette of neon soft colors matching the theme
+            const chartColors = [
+                '#FF2E93', // Neon Pink
+                '#8F00FF', // Purple
+                '#00F0FF', // Cyan
+                '#FFE066', // Soft Yellow
+                '#10B981', // Mint/Green
+                '#FF9F43', // Pastel Orange
+                '#748FFC', // Soft Blue
+                '#E599F7'  // Pastel Magenta
+            ];
+
+            if (topics.length === 0) {
+                // Render placeholder chart
+                state.chartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ["Sem despesas"],
+                        datasets: [{
+                            data: [1],
+                            backgroundColor: [isLight ? 'rgba(0,0,0,0.05)' : 'rgba(255, 255, 255, 0.05)'],
+                            borderColor: [isLight ? 'rgba(0,0,0,0.1)' : 'rgba(255, 255, 255, 0.1)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+                return;
+            }
+
+            state.chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: topics,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: chartColors.slice(0, topics.length),
+                        borderColor: isLight ? '#f5f6fa' : '#12131e',
+                        borderWidth: 2,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: fontColor,
+                                font: {
+                                    family: "'Plus Jakarta Sans', sans-serif",
+                                    size: 11
+                                },
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.raw;
+                                    const pct = Math.round((value / grandExpenseTotal) * 100);
+                                    return ` ${context.label}: R$ ${value.toFixed(2)} (${pct}%)`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        // --- 6. Form Handlers & CRUD Logic ---
+
+        // Toggle form active type (Receita / Despesa UI switch buttons)
+        function setFormType(type) {
+            state.activeFormType = type;
+            const ganhoBtn = document.querySelector('.type-btn[data-type="ganho"]');
+            const gastoBtn = document.querySelector('.type-btn[data-type="gasto"]');
+
+            if (type === 'ganho') {
+                ganhoBtn.classList.add('active');
+                gastoBtn.classList.remove('active');
+            } else {
+                gastoBtn.classList.add('active');
+                ganhoBtn.classList.remove('active');
+            }
+        }
+
+        // Add or Update Transaction Submit
+        function handleTransactionSubmit(event) {
+            event.preventDefault();
+
+            const valInput = document.getElementById('trans-value');
+            const topicInput = document.getElementById('trans-topic');
+            const dateInput = document.getElementById('trans-date');
+            const descInput = document.getElementById('trans-desc');
+            const idInput = document.getElementById('trans-id');
+
+            const id = idInput.value;
+            const amount = parseFormattedNumber(valInput.value);
+            const topic = topicInput.value.trim();
+            const date = dateInput.value;
+            const description = descInput.value.trim();
+            const type = state.activeFormType;
+
+            if (isNaN(amount) || amount <= 0) {
+                showToast("Por favor, digite um valor maior que zero.", "error");
+                return;
+            }
+
+            if (id) {
+                // Edit existing transaction (Receita ou Gasto)
+                const index = state.transactions.findIndex(t => t.id === id);
+                if (index !== -1) {
+                    state.transactions[index] = { id, type, amount, description, topic, date };
+                    showToast("Lançamento atualizado com sucesso!", "success");
+                }
+            } else {
+                // Add new transaction
+                const newTransaction = {
+                    id: 'trans_' + Date.now() + Math.random().toString(36).substr(2, 5),
+                    type,
+                    amount,
+                    description,
+                    topic,
+                    date
+                };
+                state.transactions.push(newTransaction);
+                showToast("Lançamento adicionado com sucesso!", "success");
+            }
+
+            saveState();
+            resetTransactionForm();
+            refreshAllUI();
+        }
+
+        // Edit Transaction Button Action
+        function editTransaction(id) {
+            const trans = state.transactions.find(t => t.id === id);
+            if (!trans) return;
+
+            // Fill form inputs
+            document.getElementById('trans-value').value = trans.amount;
+            document.getElementById('trans-topic').value = trans.topic;
+            document.getElementById('trans-date').value = trans.date;
+            document.getElementById('trans-desc').value = trans.description;
+            document.getElementById('trans-id').value = trans.id;
+
+            // Update UI selector
+            setFormType(trans.type);
+
+            // Change titles and buttons representation
+            document.getElementById('form-trans-title').innerText = "Editar Lançamento";
+            document.getElementById('btn-trans-submit').innerHTML = `<i data-lucide="check"></i> Atualizar Lançamento`;
+            document.getElementById('btn-trans-cancel').style.display = 'flex';
+
+            lucide.createIcons();
+
+            // Scroll to form smoothly on mobile
+            document.getElementById('transaction-form').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Reset Transaction Form back to default state
+        function resetTransactionForm() {
+            document.getElementById('transaction-form').reset();
+            document.getElementById('trans-id').value = '';
+            setFormType('ganho');
+            
+            // Set date to today
+            document.getElementById('trans-date').value = new Date().toISOString().split('T')[0];
+
+            document.getElementById('form-trans-title').innerText = "Nova Transação";
+            document.getElementById('btn-trans-submit').innerHTML = `<i data-lucide="check"></i> Salvar Lançamento`;
+            document.getElementById('btn-trans-cancel').style.display = 'none';
+            
+            lucide.createIcons();
+        }
+
+        // Delete Transaction
+        function deleteTransaction(id) {
+            if (confirm("Deseja realmente excluir este lançamento?")) {
+                state.transactions = state.transactions.filter(t => t.id !== id);
+                saveState();
+                refreshAllUI();
+                showToast("Lançamento excluído.", "info");
+            }
+        }
+
+        // Filter / Search in transaction list handler
+        function filterHistory() {
+            const filterType = document.getElementById('filter-type').value;
+            renderTransactionsList('', filterType);
+        }
+
+        // --- Goals (Caixinhas) Modals & Actions ---
+        function openGoalModal() {
+            // Reset fields
+            document.getElementById('goal-form').reset();
+            document.getElementById('goal-id').value = '';
+            document.getElementById('modal-goal-title').innerText = "Criar Nova Caixinha";
+            document.getElementById('goal-current').parentElement.style.display = 'block'; // show saved input for new goals
+
+            const modal = document.getElementById('goal-modal');
+            modal.classList.add('active');
+        }
+
+        function closeGoalModal() {
+            const modal = document.getElementById('goal-modal');
+            modal.classList.remove('active');
+        }
+
+        function editGoal(id) {
+            const goal = state.goals.find(g => g.id === id);
+            if (!goal) return;
+
+            document.getElementById('goal-name').value = goal.name;
+            document.getElementById('goal-target').value = goal.target;
+            document.getElementById('goal-current').value = goal.current;
+            document.getElementById('goal-id').value = goal.id;
+            
+            document.getElementById('modal-goal-title').innerText = "Editar Caixinha";
+            document.getElementById('goal-current').parentElement.style.display = 'none'; // hide current savings input to prevent confusion
+
+            const modal = document.getElementById('goal-modal');
+            modal.classList.add('active');
+        }
+
+        // Delete Goal Meta
+        function deleteGoal(id) {
+            if (confirm("Excluir esta caixinha? O dinheiro nela guardado retornará ao seu Saldo Disponível.")) {
+                state.goals = state.goals.filter(g => g.id !== id);
+                saveState();
+                refreshAllUI();
+                showToast("Caixinha excluída.", "info");
+            }
+        }
+
+        // Submit new/edited goals
+        function handleGoalSubmit(event) {
+            event.preventDefault();
+
+            const nameInput = document.getElementById('goal-name');
+            const targetInput = document.getElementById('goal-target');
+            const currentInput = document.getElementById('goal-current');
+            const idInput = document.getElementById('goal-id');
+
+            const id = idInput.value;
+            const name = nameInput.value.trim();
+            const target = parseFormattedNumber(targetInput.value);
+            const current = parseFormattedNumber(currentInput.value) || 0;
+
+            if (target <= 0) {
+                showToast("O valor objetivo deve ser maior que zero.", "error");
+                return;
+            }
+
+            if (id) {
+                // Update
+                const index = state.goals.findIndex(g => g.id === id);
+                if (index !== -1) {
+                    state.goals[index].name = name;
+                    state.goals[index].target = target;
+                    showToast("Caixinha atualizada com sucesso!", "success");
+                }
+            } else {
+                // Create
+                const newGoal = {
+                    id: 'goal_' + Date.now(),
+                    name,
+                    target,
+                    current: Math.max(0, current)
+                };
+                state.goals.push(newGoal);
+                showToast("Nova caixinha criada!", "success");
+            }
+
+            saveState();
+            closeGoalModal();
+            refreshAllUI();
+        }
+
+        // Quick Adjust directly inside cards (add/subtract values)
+        function handleGoalQuickAdjust(goalId, action) {
+            const input = document.getElementById(`adj-val-${goalId}`);
+            const value = parseFormattedNumber(input.value);
+
+            if (isNaN(value) || value <= 0) {
+                showToast("Digite um valor válido para poupar ou retirar.", "error");
+                return;
+            }
+
+            const goal = state.goals.find(g => g.id === goalId);
+            if (!goal) return;
+
+            if (action === 'add') {
+                goal.current = parseFloat(goal.current) + value;
+                showToast(`R$ ${value.toFixed(2)} guardados em "${goal.name}"!`, "success");
+            } else {
+                if (value > goal.current) {
+                    showToast("Saldo insuficiente na caixinha para resgate.", "error");
+                    return;
+                }
+                goal.current = parseFloat(goal.current) - value;
+                showToast(`R$ ${value.toFixed(2)} retirados de "${goal.name}".`, "info");
+            }
+
+            // Clear card input
+            input.value = '';
+
+            saveState();
+            refreshAllUI();
+        }
+
+
+        // Overlay click modal close
+        function closeModalOnOverlay(event, modalId) {
+            if (event.target.id === modalId) {
+                if (modalId === 'goal-modal') closeGoalModal();
+            }
+        }
+
+
+        // --- 7. Autocomplete suggestions for Topics ---
+        function showSuggestions() {
+            const input = document.getElementById('trans-topic');
+            const listContainer = document.getElementById('autocomplete-list');
+            listContainer.innerHTML = '';
+            
+            // Get unique user entered categories in state.transactions
+            const userCats = [...new Set(state.transactions.map(t => t.topic))];
+            const allCats = [...new Set([...defaultCategories, ...userCats])];
+
+            allCats.forEach(cat => {
+                const div = document.createElement('div');
+                div.className = 'autocomplete-item';
+                div.innerText = cat;
+                div.onclick = () => {
+                    input.value = cat;
+                    listContainer.style.display = 'none';
+                };
+                listContainer.appendChild(div);
+            });
+
+            listContainer.style.display = 'block';
+        }
+
+        function filterSuggestions() {
+            const input = document.getElementById('trans-topic');
+            const filter = input.value.toLowerCase();
+            const listContainer = document.getElementById('autocomplete-list');
+            const items = listContainer.getElementsByClassName('autocomplete-item');
+
+            let visibleCount = 0;
+            for (let i = 0; i < items.length; i++) {
+                const text = items[i].innerText.toLowerCase();
+                if (text.indexOf(filter) > -1) {
+                    items[i].style.display = "";
+                    visibleCount++;
+                } else {
+                    items[i].style.display = "none";
+                }
+            }
+
+            listContainer.style.display = visibleCount > 0 ? 'block' : 'none';
+        }
+
+        // Close suggestions dropdown on document click
+        document.addEventListener('click', (e) => {
+            if (e.target.id !== 'trans-topic') {
+                document.getElementById('autocomplete-list').style.display = 'none';
+            }
+        });
+
+
+        // --- 8. UI Helpers (Formatting, Escape, Icons) ---
+        
+        // Currency display formatter
+        function formatCurrency(val) {
+            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
+        }
+
+        // Date display formatter
+        function formatDate(dateStr) {
+            const parts = dateStr.split('-');
+            if (parts.length === 3) {
+                return `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+            return dateStr;
+        }
+
+        // Month name helper
+        function getMonthName(num) {
+            const months = {
+                "01": "Janeiro", "02": "Fevereiro", "03": "Março", "04": "Abril",
+                "05": "Maio", "06": "Junho", "07": "Julho", "08": "Agosto",
+                "09": "Setembro", "10": "Outubro", "11": "Novembro", "12": "Dezembro"
+            };
+            return months[num] || "";
+        }
+
+        // Map categories/topics to specific Lucide icons
+        function getCategoryIcon(topic) {
+            const t = (topic || "").toLowerCase();
+            if (t.includes("aliment") || t.includes("comida") || t.includes("restaurante") || t.includes("ifood") || t.includes("mercado")) {
+                return "soup";
+            }
+            if (t.includes("transport") || t.includes("uber") || t.includes("carro") || t.includes("combustivel") || t.includes("moto")) {
+                return "car";
+            }
+            if (t.includes("casa") || t.includes("morad") || t.includes("aluguel") || t.includes("luz") || t.includes("agua")) {
+                return "home";
+            }
+            if (t.includes("lazer") || t.includes("viagem") || t.includes("cinema") || t.includes("festa") || t.includes("show")) {
+                return "palmtree";
+            }
+            if (t.includes("saude") || t.includes("remedio") || t.includes("medico") || t.includes("farmacia")) {
+                return "heart-pulse";
+            }
+            if (t.includes("educa") || t.includes("curso") || t.includes("faculdade") || t.includes("livro")) {
+                return "book-open";
+            }
+            if (t.includes("salario") || t.includes("receb") || t.includes("pagament")) {
+                return "dollar-sign";
+            }
+            if (t.includes("freela") || t.includes("site") || t.includes("servi")) {
+                return "laptop-2";
+            }
+            if (t.includes("netflix") || t.includes("spotify") || t.includes("assina") || t.includes("prime")) {
+                return "tv";
+            }
+            if (t.includes("compra") || t.includes("vestu") || t.includes("roupa") || t.includes("zara")) {
+                return "shopping-bag";
+            }
+            return "tag";
+        }
+
+        // HTML injection escape utility
+        function escapeHTML(str) {
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Dynamic Toast Notifications
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+
+            let iconName = 'info';
+            if (type === 'success') iconName = 'check-circle';
+            if (type === 'error') iconName = 'x-circle';
+
+            toast.innerHTML = `
+                <i data-lucide="${iconName}"></i>
+                <span>${message}</span>
+            `;
+
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            // Slide in animation
+            setTimeout(() => {
+                toast.classList.add('active');
+            }, 10);
+
+            // Auto dismiss toast
+            setTimeout(() => {
+                toast.classList.remove('active');
+                setTimeout(() => {
+                    toast.remove();
+                }, 350);
+            }, 3000);
+        }
+
+    </script>
+</body>
+</html>
